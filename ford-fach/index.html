@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ford Fach — Warsztat Samochodowy | Strona Główna</title>
+  <meta name="description" content="Profesjonalny warsztat samochodowy Ford Fach. Naprawy, serwis, diagnostyka. Doświadczeni mechanicy, nowoczesny sprzęt."/>
+  <link rel="icon" href="logo.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo.svg" alt="Ford Fach Logo" style="height:48px"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Strona Główna</a></li>
+    <li><a href="uslugi.html">Usługi</a></li>
+    <li><a href="o-nas.html">O Nas</a></li>
+    <li><a href="galeria.html">Galeria</a></li>
+    <li><a href="kontakt.html" class="nav-cta">Umów Wizytę</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content fade-up">
+    <div class="hero-eyebrow">Autoryzowany Serwis Ford</div>
+    <h1 class="hero-title">
+      Profesjonalna<br>
+      <span class="line-gold">Naprawa</span> &<br>
+      <span class="line-neon">Diagnostyka</span>
+    </h1>
+    <p class="hero-desc">
+      Twój Ford w najlepszych rękach. Ponad 20 lat doświadczenia,
+      certyfikowani mechanicy i najnowszy sprzęt diagnostyczny.
+      Warsztat godny zaufania.
+    </p>
+    <div class="hero-buttons">
+      <a href="kontakt.html" class="btn-primary">
+        <span>📅</span> Umów wizytę
+      </a>
+      <a href="uslugi.html" class="btn-outline">
+        <span>🔧</span> Nasze usługi
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat-item">
+      <span class="hero-stat-num" data-target="20" data-suffix="+">0+</span>
+      <div class="hero-stat-label">Lat doświadczenia</div>
+    </div>
+    <div class="hero-stat-item">
+      <span class="hero-stat-num" data-target="5000" data-suffix="+">0+</span>
+      <div class="hero-stat-label">Zadowolonych klientów</div>
+    </div>
+    <div class="hero-stat-item">
+      <span class="hero-stat-num" data-target="98" data-suffix="%">0%</span>
+      <div class="hero-stat-label">Satysfakcji</div>
+    </div>
+    <div class="hero-stat-item">
+      <span class="hero-stat-num" data-target="12">0</span>
+      <div class="hero-stat-label">Certyfikatów</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ GODZINY PRACY ═══════════════ -->
+<div class="hours-banner">
+  <div class="hours-item">
+    <div class="hours-day">Poniedziałek — Piątek</div>
+    <div class="hours-time neon-text">08:00 – 18:00</div>
+  </div>
+  <div class="hours-separator"></div>
+  <div class="hours-item">
+    <div class="hours-day">Sobota</div>
+    <div class="hours-time neon-text">08:00 – 14:00</div>
+  </div>
+  <div class="hours-separator"></div>
+  <div class="hours-item">
+    <div class="hours-day">Niedziela</div>
+    <div class="hours-time" style="color: var(--text-muted)">Zamknięte</div>
+  </div>
+  <div class="hours-separator"></div>
+  <div class="hours-item">
+    <div class="hours-day">Telefon alarmowy</div>
+    <div class="hours-time gold-text">+48 123 456 789</div>
+  </div>
+</div>
+
+<!-- ═══════════════ USŁUGI ═══════════════ -->
+<section id="uslugi" style="background: linear-gradient(180deg, var(--dark-bg), rgba(0,20,40,.3), var(--dark-bg))">
+  <div class="section-eyebrow">Co oferujemy</div>
+  <div class="divider"></div>
+  <h2 class="section-title">Nasze <span>Usługi</span></h2>
+  <p class="section-sub">Kompleksowa obsługa wszystkich modeli Ford. Używamy wyłącznie oryginalnych części i najnowszych technologii diagnostycznych.</p>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <div class="service-title">Naprawa Silnika</div>
+      <p class="service-desc">Pełna diagnostyka i naprawa silników Ford — benzyna, diesel, hybryda. Wymiana rozrządu, uszczelnień i głowicy.</p>
+      <div class="service-price">od 300 zł</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💻</div>
+      <div class="service-title">Diagnostyka Komputerowa</div>
+      <p class="service-desc">Profesjonalna diagnostyka IDS Ford. Odczyt i kasowanie błędów, programowanie modułów ECU.</p>
+      <div class="service-price">od 80 zł</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛞</div>
+      <div class="service-title">Układ Hamulcowy</div>
+      <p class="service-desc">Wymiana klocków, tarcz, płynu hamulcowego. Odpowietrzanie i regulacja układu ABS/ESP.</p>
+      <div class="service-price">od 200 zł</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">❄️</div>
+      <div class="service-title">Klimatyzacja</div>
+      <p class="service-desc">Serwis, napełnianie czynnikiem, dezynfekcja i naprawa układu klimatyzacji. Certyfikat F-gaz.</p>
+      <div class="service-price">od 150 zł</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔋</div>
+      <div class="service-title">Układ Elektryczny</div>
+      <p class="service-desc">Diagnostyka i naprawa instalacji elektrycznej, alternatorów, rozruszników. Montaż akcesoriów.</p>
+      <div class="service-price">od 120 zł</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔩</div>
+      <div class="service-title">Przegląd Okresowy</div>
+      <p class="service-desc">Kompleksowy przegląd z wymianą oleju, filtrów i kontrolą 50 punktów bezpieczeństwa.</p>
+      <div class="service-price">od 250 zł</div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:3rem">
+    <a href="uslugi.html" class="btn-outline">Zobacz pełny cennik →</a>
+  </div>
+</section>
+
+<!-- ═══════════════ DLACZEGO MY ═══════════════ -->
+<section style="background: rgba(0,20,50,.15)">
+  <div class="features-layout">
+    <div>
+      <div class="section-eyebrow">Nasza przewaga</div>
+      <div class="divider"></div>
+      <h2 class="section-title">Dlaczego <span>Ford Fach</span>?</h2>
+      <p class="section-sub">Wybierając nas, wybierasz jakość potwierdzoną latami doświadczenia i tysiącami zadowolonych klientów.</p>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">🏆</div>
+          <div class="feature-text">
+            <h4>Certyfikowani specjaliści Ford</h4>
+            <p>Nasz zespół posiada oficjalne certyfikaty producenta i regularnie szkoli się na najnowszych technologiach Ford.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔬</div>
+          <div class="feature-text">
+            <h4>Profesjonalny sprzęt diagnostyczny</h4>
+            <p>Używamy autoryzowanego oprogramowania IDS i najnowszych urządzeń pomiarowych klasy profesjonalnej.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-text">
+            <h4>Ekspresowy czas realizacji</h4>
+            <p>Większość napraw realizujemy w ciągu jednego dnia. Auto zastępcze dostępne bez dodatkowych kosztów.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🛡️</div>
+          <div class="feature-text">
+            <h4>Gwarancja na usługi i części</h4>
+            <p>24 miesiące gwarancji na wszystkie wykonane naprawy i zamontowane oryginalne części Ford.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="logo-showcase">
+      <div class="logo-ring">
+        <img src="logo.svg" alt="Ford Fach Logo" style="width:210px"/>
+      </div>
+      <div style="text-align:center">
+        <div class="badge badge-gold" style="margin-bottom:.75rem">★ Autoryzowany Partner Ford</div>
+        <p style="color:var(--text-muted); font-size:.85rem; max-width:240px; line-height:1.7">
+          Oficjalny serwis certyfikowany przez Ford Motor Company
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ OPINIE ═══════════════ -->
+<section>
+  <div class="section-eyebrow">Opinie klientów</div>
+  <div class="divider"></div>
+  <h2 class="section-title">Co mówią <span>klienci</span></h2>
+  <p class="section-sub">Nasza reputacja budowana jest na zaufaniu i jakości od ponad 20 lat.</p>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">Serwisują mojego Forda Focusa od 5 lat. Zawsze profesjonalnie, terminowo i w rozsądnych cenach. Gorąco polecam każdemu właścicielowi Forda!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MK</div>
+        <div>
+          <div class="author-name">Marek Kowalski</div>
+          <div class="author-car">Ford Focus ST 2019</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">Szybka diagnostyka i naprawa skrzyni biegów w jednym dniu. Inni mówili że to niemożliwe — Ford Fach zrobił to w 6 godzin. Rewelacja!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AW</div>
+        <div>
+          <div class="author-name">Anna Wiśniewska</div>
+          <div class="author-car">Ford Kuga 2021</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">Przyszedłem z problemem silnika który trzy inne warsztaty nie mogły zdiagnozować. Tutaj znaleźli usterkę od razu. Fachowcy z prawdziwego zdarzenia.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">PJ</div>
+        <div>
+          <div class="author-name">Piotr Jankowski</div>
+          <div class="author-car">Ford Mondeo 2018</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA ═══════════════ -->
+<section style="text-align:center; background: linear-gradient(135deg, rgba(0,51,102,.3), rgba(0,100,200,.15))">
+  <div class="section-eyebrow" style="justify-content:center">Gotowy na wizytę?</div>
+  <div class="divider" style="margin:0 auto 1.5rem"></div>
+  <h2 class="section-title">Umów się <span>online</span></h2>
+  <p class="section-sub" style="margin:0 auto 2.5rem">Rezerwacja online zajmuje 2 minuty. Przyjedziemy do Ciebie lub zapraszamy do naszego warsztatu.</p>
+  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap">
+    <a href="kontakt.html" class="btn-primary">📅 Zarezerwuj termin</a>
+    <a href="tel:+48123456789" class="btn-outline">📞 Zadzwoń teraz</a>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="logo.svg" alt="Ford Fach" style="height:56px"/>
+      <p>Profesjonalny warsztat samochodowy specjalizujący się w markach Ford. Certyfikowani mechanicy, oryginalne części, gwarancja jakości.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Nawigacja</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Strona Główna</a></li>
+        <li><a href="uslugi.html">Usługi</a></li>
+        <li><a href="o-nas.html">O Nas</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Usługi</div>
+      <ul class="footer-links">
+        <li><a href="uslugi.html">Naprawa Silnika</a></li>
+        <li><a href="uslugi.html">Diagnostyka</a></li>
+        <li><a href="uslugi.html">Klimatyzacja</a></li>
+        <li><a href="uslugi.html">Hamulce</a></li>
+        <li><a href="uslugi.html">Przegląd Okresowy</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Kontakt</div>
+      <ul class="footer-links">
+        <li><a href="tel:+48123456789">📞 +48 123 456 789</a></li>
+        <li><a href="mailto:kontakt@fordfach.pl">✉ kontakt@fordfach.pl</a></li>
+        <li><a href="#">📍 ul. Mechaniczna 12, Warszawa</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span class="current-year"></span> Ford Fach. Wszelkie prawa zastrzeżone.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn" aria-label="Facebook">f</a>
+      <a href="#" class="social-btn" aria-label="Instagram">in</a>
+      <a href="#" class="social-btn" aria-label="YouTube">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

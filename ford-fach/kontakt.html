@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ford Fach — Kontakt & Rezerwacja</title>
+  <meta name="description" content="Skontaktuj się z warsztatem Ford Fach. Umów wizytę online, zadzwoń lub napisz. Ul. Mechaniczna 12, Warszawa."/>
+  <link rel="icon" href="logo.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .booking-steps {
+      display: flex;
+      gap: 0;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .booking-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: calc(16.666% + 20px);
+      right: calc(16.666% + 20px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+      opacity: .3;
+    }
+    .step {
+      flex: 1;
+      text-align: center;
+      padding: 0 .5rem;
+    }
+    .step-circle {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--dark-card);
+      border: 2px solid var(--dark-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto .75rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .9rem;
+      transition: all .3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .step.active .step-circle {
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+      border-color: var(--neon-cyan);
+      color: var(--dark-bg);
+      box-shadow: 0 0 20px rgba(0,212,255,.4);
+    }
+    .step-label { font-size: .72rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+    .step.active .step-label { color: var(--neon-cyan); }
+
+    .service-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin-top: .5rem;
+    }
+    .service-opt {
+      padding: .85rem;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s ease;
+      font-size: .82rem;
+    }
+    .service-opt:hover,
+    .service-opt.selected {
+      border-color: var(--neon-cyan);
+      background: rgba(0,212,255,.07);
+      color: var(--neon-cyan);
+    }
+    .service-opt-icon { font-size: 1.4rem; margin-bottom: .35rem; display: block; }
+
+    .faq-item {
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .9rem;
+      transition: color .3s ease;
+    }
+    .faq-question:hover { color: var(--neon-cyan); }
+    .faq-arrow { transition: transform .3s ease; color: var(--neon-cyan); }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+      font-size: .88rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .faq-answer.open { max-height: 200px; padding-bottom: 1.25rem; }
+
+    @media (max-width: 768px) {
+      .service-selector { grid-template-columns: 1fr 1fr; }
+      .booking-steps::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo.svg" alt="Ford Fach Logo" style="height:48px"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Strona Główna</a></li>
+    <li><a href="uslugi.html">Usługi</a></li>
+    <li><a href="o-nas.html">O Nas</a></li>
+    <li><a href="galeria.html">Galeria</a></li>
+    <li><a href="kontakt.html" class="nav-cta active">Umów Wizytę</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-eyebrow">Zarezerwuj termin</div>
+    <h1 class="page-hero-title">Kontakt & <span>Rezerwacja</span></h1>
+    <p style="color:var(--text-muted); max-width:500px; margin-top:.75rem">
+      Umów wizytę online w 2 minuty, zadzwoń lub napisz do nas. Odpowiadamy w ciągu 1 godziny.
+    </p>
+    <div class="page-hero-breadcrumb">
+      <a href="index.html">Strona Główna</a>
+      <span>›</span>
+      <span>Kontakt</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT + FORM -->
+<section>
+  <div class="contact-layout">
+
+    <!-- Info sidebar -->
+    <div>
+      <div class="section-eyebrow">Znajdź nas</div>
+      <div class="divider"></div>
+      <h2 class="section-title" style="font-size:2rem">Dane <span>Kontaktowe</span></h2>
+
+      <div class="contact-info" style="margin-top:2rem">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Adres</h4>
+            <p>ul. Mechaniczna 12<br>02-400 Warszawa<br>Polska</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Telefon</h4>
+            <p>
+              <a href="tel:+48123456789" style="color:var(--neon-cyan); text-decoration:none">+48 123 456 789</a><br>
+              <span style="font-size:.8rem">Pn–Pt: 8:00–18:00 | Sob: 8:00–14:00</span>
+            </p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p>
+              <a href="mailto:kontakt@fordfach.pl" style="color:var(--neon-cyan); text-decoration:none">kontakt@fordfach.pl</a><br>
+              <span style="font-size:.8rem">Odpowiadamy w ciągu 1 godziny</span>
+            </p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">⏰</div>
+          <div>
+            <h4>Godziny otwarcia</h4>
+            <p>
+              Pon – Piątek: <span class="neon-text">08:00 – 18:00</span><br>
+              Sobota: <span class="neon-text">08:00 – 14:00</span><br>
+              Niedziela: <span style="color:var(--text-muted)">Zamknięte</span>
+            </p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🚗</div>
+          <div>
+            <h4>Auto zastępcze</h4>
+            <p>Bezpłatne auto zastępcze<br>dla napraw powyżej 3 godzin</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map placeholder -->
+      <div class="map-placeholder" style="margin-top:2rem">
+        <span>🗺️</span>
+        <p>ul. Mechaniczna 12, Warszawa</p>
+        <a href="https://maps.google.com" target="_blank" rel="noopener" style="font-size:.8rem; color:var(--neon-cyan); z-index:1">Otwórz w Google Maps →</a>
+      </div>
+    </div>
+
+    <!-- Booking form -->
+    <div>
+      <div class="section-eyebrow">Online rezerwacja</div>
+      <div class="divider"></div>
+      <h2 class="section-title" style="font-size:2rem; margin-bottom:2rem">Umów <span>Wizytę</span></h2>
+
+      <!-- Steps -->
+      <div class="booking-steps">
+        <div class="step active">
+          <div class="step-circle">1</div>
+          <div class="step-label">Usługa</div>
+        </div>
+        <div class="step active">
+          <div class="step-circle">2</div>
+          <div class="step-label">Termin</div>
+        </div>
+        <div class="step active">
+          <div class="step-circle">3</div>
+          <div class="step-label">Dane</div>
+        </div>
+        <div class="step">
+          <div class="step-circle">4</div>
+          <div class="step-label">Potwierdzenie</div>
+        </div>
+      </div>
+
+      <form id="contactForm">
+
+        <!-- Service selector -->
+        <div class="form-group">
+          <label>Wybierz rodzaj usługi</label>
+          <div class="service-selector" id="serviceSelector">
+            <div class="service-opt selected" onclick="selectService(this)">
+              <span class="service-opt-icon">🔧</span>
+              Naprawa silnika
+            </div>
+            <div class="service-opt" onclick="selectService(this)">
+              <span class="service-opt-icon">💻</span>
+              Diagnostyka
+            </div>
+            <div class="service-opt" onclick="selectService(this)">
+              <span class="service-opt-icon">🛞</span>
+              Hamulce
+            </div>
+            <div class="service-opt" onclick="selectService(this)">
+              <span class="service-opt-icon">❄️</span>
+              Klimatyzacja
+            </div>
+            <div class="service-opt" onclick="selectService(this)">
+              <span class="service-opt-icon">🔩</span>
+              Przegląd
+            </div>
+            <div class="service-opt" onclick="selectService(this)">
+              <span class="service-opt-icon">❓</span>
+              Inne
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Imię i Nazwisko *</label>
+            <input type="text" name="name" placeholder="Jan Kowalski" required/>
+          </div>
+          <div class="form-group">
+            <label>Numer telefonu *</label>
+            <input type="tel" name="phone" placeholder="+48 500 000 000" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Adres email</label>
+          <input type="email" name="email" placeholder="jan.kowalski@email.pl"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Model samochodu *</label>
+            <select name="model" required>
+              <option value="" disabled selected>Wybierz model</option>
+              <optgroup label="Ford Osobowe">
+                <option>Ford Fiesta</option>
+                <option>Ford Focus</option>
+                <option>Ford Mondeo</option>
+                <option>Ford Puma</option>
+                <option>Ford Mustang</option>
+              </optgroup>
+              <optgroup label="Ford SUV">
+                <option>Ford Kuga</option>
+                <option>Ford Explorer</option>
+                <option>Ford Edge</option>
+                <option>Ford Bronco</option>
+                <option>Ford EcoSport</option>
+              </optgroup>
+              <optgroup label="Ford Elektryczne">
+                <option>Ford Mustang Mach-E</option>
+                <option>Ford Explorer EV</option>
+                <option>Ford Capri EV</option>
+              </optgroup>
+              <optgroup label="Ford Użytkowe">
+                <option>Ford Transit</option>
+                <option>Ford Transit Custom</option>
+                <option>Ford Ranger</option>
+              </optgroup>
+              <option value="inne">Inny model</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Rok produkcji</label>
+            <input type="number" name="year" placeholder="2020" min="1990" max="2026"/>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Preferowana data *</label>
+            <input type="date" name="date" required/>
+          </div>
+          <div class="form-group">
+            <label>Preferowana godzina</label>
+            <select name="time">
+              <option value="" disabled selected>Wybierz godzinę</option>
+              <option>08:00 – 09:00</option>
+              <option>09:00 – 10:00</option>
+              <option>10:00 – 11:00</option>
+              <option>11:00 – 12:00</option>
+              <option>12:00 – 13:00</option>
+              <option>13:00 – 14:00</option>
+              <option>14:00 – 15:00</option>
+              <option>15:00 – 16:00</option>
+              <option>16:00 – 17:00</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Opis usterki / uwagi</label>
+          <textarea name="message" placeholder="Opisz dokładniej problem lub pytania. Im więcej szczegółów, tym lepiej przygotujemy się do naprawy..."></textarea>
+        </div>
+
+        <div class="form-group" style="display:flex; align-items:flex-start; gap:.75rem">
+          <input type="checkbox" id="consent" name="consent" required style="width:auto; margin-top:.2rem; accent-color:var(--neon-cyan)"/>
+          <label for="consent" style="font-size:.8rem; text-transform:none; letter-spacing:0; cursor:pointer; color:var(--text-muted)">
+            Wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji rezerwacji wizyty serwisowej zgodnie z Polityką Prywatności Ford Fach. *
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%; justify-content:center; padding:1rem">
+          📅 Wyślij rezerwację
+        </button>
+
+        <p style="font-size:.78rem; color:var(--text-muted); text-align:center; margin-top:1rem">
+          Potwierdzenie SMS w ciągu 30 minut. Bezpłatne odwołanie do 24h przed wizytą.
+        </p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="background: rgba(0,20,40,.2)">
+  <div class="section-eyebrow">Często zadawane pytania</div>
+  <div class="divider"></div>
+  <h2 class="section-title">FAQ — <span>Pytania & Odpowiedzi</span></h2>
+  <p class="section-sub">Odpowiedzi na najczęściej zadawane pytania naszych klientów.</p>
+
+  <div style="max-width:760px">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Czy muszę przynosić samochód? Czy mogę zostawić go na noc?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        Tak, oferujemy możliwość zostawienia auta na noc — wystarczy uprzedzić nas telefonicznie lub w formularzu rezerwacji. Dysponujemy zamykanym, monitorowanym parkingiem. Klucze możesz zostawić w specjalnej skrytce przy wejściu.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Czy posiadacie auto zastępcze?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        Tak! Dla napraw trwających powyżej 3 godzin oferujemy bezpłatne auto zastępcze (Ford Focus lub Fiesta, w zależności od dostępności). Wymagane prawo jazdy i kaucja zwrotna 200 zł.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Jaką gwarancję dajecie na naprawy?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        Udzielamy 24 miesięcy gwarancji na wszystkie wykonane usługi i zamontowane części. Oryginalne części Ford objęte są dodatkowo gwarancją producenta.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Czy serwisujecie tylko Fordy?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        Specjalizujemy się wyłącznie w markach Ford — wszystkie modele osobowe, dostawcze i elektryczne. Dzięki tej specjalizacji mamy najgłębszą wiedzę techniczną i dostęp do wszystkich systemów diagnostycznych producenta.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Czy mogę skorzystać z naprawy bezgotówkowej / na fakturę?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        Oczywiście! Przyjmujemy płatności gotówką, kartą, przelewem bankowym i BLIK. Wystawiamy faktury VAT. Dla firm — możliwość płatności z odroczonym terminem (po wcześniejszym uzgodnieniu).
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Jak długo trwa naprawa? Dostanę informację na bieżąco?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        Informujemy klienta SMS-em o każdym etapie naprawy — od przyjęcia, przez diagnozę i wycenę, aż do ukończenia. Większość napraw realizujemy w 1 dniu roboczym. Przed każdą pracą otrzymujesz wycenę do akceptacji.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMERGENCY CTA -->
+<section style="text-align:center">
+  <div style="background: linear-gradient(135deg, rgba(255,107,0,.1), rgba(255,50,0,.05)); border:1px solid rgba(255,107,0,.2); border-radius:16px; padding:3rem; max-width:700px; margin:0 auto">
+    <div style="font-size:2.5rem; margin-bottom:1rem">🚨</div>
+    <h2 style="font-family:var(--font-display); font-size:1.8rem; font-weight:700; margin-bottom:.75rem">
+      Nagły przypadek?
+    </h2>
+    <p style="color:var(--text-muted); margin-bottom:1.5rem">
+      Awaria na drodze? Dzwoń pod numer alarmowy warsztatu dostępny całą dobę.
+    </p>
+    <a href="tel:+48123456789" class="btn-primary" style="background: linear-gradient(135deg, var(--neon-orange), #ff3300)">
+      📞 Telefon alarmowy: +48 123 456 789
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="logo.svg" alt="Ford Fach" style="height:56px"/>
+      <p>Profesjonalny warsztat samochodowy specjalizujący się w markach Ford. Certyfikowani mechanicy, oryginalne części, gwarancja jakości.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Nawigacja</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Strona Główna</a></li>
+        <li><a href="uslugi.html">Usługi</a></li>
+        <li><a href="o-nas.html">O Nas</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Usługi</div>
+      <ul class="footer-links">
+        <li><a href="uslugi.html">Naprawa Silnika</a></li>
+        <li><a href="uslugi.html">Diagnostyka</a></li>
+        <li><a href="uslugi.html">Klimatyzacja</a></li>
+        <li><a href="uslugi.html">Hamulce</a></li>
+        <li><a href="uslugi.html">Przegląd Okresowy</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Kontakt</div>
+      <ul class="footer-links">
+        <li><a href="tel:+48123456789">📞 +48 123 456 789</a></li>
+        <li><a href="mailto:kontakt@fordfach.pl">✉ kontakt@fordfach.pl</a></li>
+        <li><a href="#">📍 ul. Mechaniczna 12, Warszawa</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span class="current-year"></span> Ford Fach. Wszelkie prawa zastrzeżone.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">f</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function selectService(el) {
+  document.querySelectorAll('.service-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleFaq(el) {
+  const item  = el.parentElement;
+  const ans   = item.querySelector('.faq-answer');
+  const isOpen = item.classList.contains('open');
+
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-answer').classList.remove('open');
+  });
+
+  if (!isOpen) {
+    item.classList.add('open');
+    ans.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ford Fach — Galeria Warsztatu</title>
+  <meta name="description" content="Galeria zdjęć warsztatu Ford Fach. Nowoczesny sprzęt, profesjonalne stanowiska serwisowe."/>
+  <link rel="icon" href="logo.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .gallery-masonry {
+      columns: 3;
+      column-gap: 1rem;
+    }
+    .gallery-masonry-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--dark-border);
+      background: var(--dark-card);
+      cursor: pointer;
+      transition: all .3s ease;
+      position: relative;
+    }
+    .gallery-masonry-item:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0,212,255,.2);
+      transform: scale(1.02);
+    }
+    .gallery-masonry-item:hover .gal-overlay { opacity: 1; }
+    .gal-cell {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      color: var(--text-muted);
+      font-size: .8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, rgba(0,40,100,.4), rgba(0,10,30,.7));
+    }
+    .gal-cell.tall { padding: 4rem 1rem; }
+    .gal-cell.xtall { padding: 6rem 1rem; }
+    .gal-icon { font-size: 2.5rem; opacity: .6; }
+    .gal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,212,255,.08);
+      opacity: 0;
+      transition: opacity .3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: .5rem 1.25rem;
+      border-radius: 4px;
+      border: 1px solid var(--dark-border);
+      background: var(--dark-card);
+      color: var(--text-muted);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .3s ease;
+      font-family: var(--font-main);
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      background: rgba(0,212,255,.07);
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--dark-border);
+    }
+    .ba-side {
+      display: flex;
+      flex-direction: column;
+    }
+    .ba-label {
+      padding: .75rem 1.25rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .ba-label.before { background: rgba(255,100,0,.1); color: var(--neon-orange); }
+    .ba-label.after  { background: rgba(0,212,255,.1); color: var(--neon-cyan); }
+    .ba-cell {
+      flex: 1;
+      padding: 3rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      color: var(--text-muted);
+      background: var(--dark-card);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-masonry { columns: 2; }
+      .before-after { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .gallery-masonry { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo.svg" alt="Ford Fach Logo" style="height:48px"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Strona Główna</a></li>
+    <li><a href="uslugi.html">Usługi</a></li>
+    <li><a href="o-nas.html">O Nas</a></li>
+    <li><a href="galeria.html" class="active">Galeria</a></li>
+    <li><a href="kontakt.html" class="nav-cta">Umów Wizytę</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-eyebrow">Nasze realizacje</div>
+    <h1 class="page-hero-title">Galeria <span>Warsztatu</span></h1>
+    <p style="color:var(--text-muted); max-width:500px; margin-top:.75rem">
+      Zajrzyj do środka naszego warsztatu. Profesjonalne stanowiska, nowoczesny sprzęt i efekty naszej pracy.
+    </p>
+    <div class="page-hero-breadcrumb">
+      <a href="index.html">Strona Główna</a>
+      <span>›</span>
+      <span>Galeria</span>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section>
+  <div class="section-eyebrow">Zdjęcia</div>
+  <div class="divider"></div>
+  <h2 class="section-title">Nasz <span>Warsztat</span></h2>
+  <p class="section-sub">Nowoczesny obiekt z 6 stanowiskami serwisowymi, kanałami i najnowszym sprzętem diagnostycznym.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterGallery('all', this)">Wszystkie</button>
+    <button class="filter-btn" onclick="filterGallery('warsztat', this)">Warsztat</button>
+    <button class="filter-btn" onclick="filterGallery('naprawa', this)">Naprawy</button>
+    <button class="filter-btn" onclick="filterGallery('sprzet', this)">Sprzęt</button>
+    <button class="filter-btn" onclick="filterGallery('ford', this)">Modele Ford</button>
+  </div>
+
+  <div class="gallery-masonry" id="galleryGrid">
+
+    <!-- Warsztat -->
+    <div class="gallery-masonry-item" data-category="warsztat">
+      <div class="gal-cell xtall">
+        <div class="gal-icon">🏭</div>
+        <span>Hala serwisowa</span>
+        <span style="font-size:.7rem; opacity:.6">6 stanowisk roboczych</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="sprzet">
+      <div class="gal-cell tall">
+        <div class="gal-icon">💻</div>
+        <span>Diagnostyka IDS</span>
+        <span style="font-size:.7rem; opacity:.6">Ford IDS & FDRS</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="naprawa">
+      <div class="gal-cell">
+        <div class="gal-icon">🔧</div>
+        <span>Naprawa silnika</span>
+        <span style="font-size:.7rem; opacity:.6">EcoBoost 1.0</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="ford">
+      <div class="gal-cell tall">
+        <div class="gal-icon">🚗</div>
+        <span>Ford Focus ST</span>
+        <span style="font-size:.7rem; opacity:.6">Rok 2021</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="sprzet">
+      <div class="gal-cell">
+        <div class="gal-icon">📐</div>
+        <span>Geometria 3D</span>
+        <span style="font-size:.7rem; opacity:.6">Hunter HawkEye</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="warsztat">
+      <div class="gal-cell">
+        <div class="gal-icon">🏗️</div>
+        <span>Podnośniki 2-kolumnowe</span>
+        <span style="font-size:.7rem; opacity:.6">Nussbaum Pro</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="naprawa">
+      <div class="gal-cell tall">
+        <div class="gal-icon">⚙️</div>
+        <span>Wymiana skrzyni biegów</span>
+        <span style="font-size:.7rem; opacity:.6">Ford Mondeo PowerShift</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="ford">
+      <div class="gal-cell">
+        <div class="gal-icon">🚙</div>
+        <span>Ford Kuga PHEV</span>
+        <span style="font-size:.7rem; opacity:.6">Serwis hybrydy</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="sprzet">
+      <div class="gal-cell tall">
+        <div class="gal-icon">❄️</div>
+        <span>Stacja klimatyzacji</span>
+        <span style="font-size:.7rem; opacity:.6">R134a & R1234yf</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="warsztat">
+      <div class="gal-cell xtall">
+        <div class="gal-icon">🧰</div>
+        <span>Stanowisko elektryczne</span>
+        <span style="font-size:.7rem; opacity:.6">EV/HV Service Bay</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="naprawa">
+      <div class="gal-cell">
+        <div class="gal-icon">🛞</div>
+        <span>Wymiana hamulców</span>
+        <span style="font-size:.7rem; opacity:.6">Ford Explorer</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+    <div class="gallery-masonry-item" data-category="ford">
+      <div class="gal-cell tall">
+        <div class="gal-icon">⚡</div>
+        <span>Ford Mustang Mach-E</span>
+        <span style="font-size:.7rem; opacity:.6">Diagnostyka BEV</span>
+      </div>
+      <div class="gal-overlay">🔍</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BEFORE/AFTER -->
+<section style="background: rgba(0,20,40,.2)">
+  <div class="section-eyebrow">Efekty pracy</div>
+  <div class="divider"></div>
+  <h2 class="section-title">Przed & <span>Po naprawie</span></h2>
+  <p class="section-sub">Przekonaj się jak wyglądają efekty naszej pracy na wybranych realizacjach.</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem">
+
+    <div>
+      <div style="margin-bottom:.75rem; font-family:var(--font-display); font-size:.9rem; letter-spacing:1px; color:var(--text-muted)">
+        Ford Focus ST — Remont silnika EcoBoost
+      </div>
+      <div class="before-after">
+        <div class="ba-side">
+          <div class="ba-label before">PRZED</div>
+          <div class="ba-cell">
+            Silnik z wyciekiem oleju, zużyty rozrząd, świecąca kontrolka. Diagnoza: uszkodzona uszczelka głowicy.
+          </div>
+        </div>
+        <div class="ba-side">
+          <div class="ba-label after">PO</div>
+          <div class="ba-cell">
+            Nowe uszczelki, wymieniony rozrząd, test kompresji 14,5 bar. Auto wraca do pełnej sprawności.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="margin-bottom:.75rem; font-family:var(--font-display); font-size:.9rem; letter-spacing:1px; color:var(--text-muted)">
+        Ford Mondeo — Układ zawieszenia
+      </div>
+      <div class="before-after">
+        <div class="ba-side">
+          <div class="ba-label before">PRZED</div>
+          <div class="ba-cell">
+            Stukające zawieszenie, nierównomierne zużycie opon, odchylenie geometrii 2,4°. Wahacze do wymiany.
+          </div>
+        </div>
+        <div class="ba-side">
+          <div class="ba-label after">PO</div>
+          <div class="ba-cell">
+            Nowe wahacze, amortyzatory, kalibracja 3D. Geometria w normie, ciche i stabilne prowadzenie.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="margin-bottom:.75rem; font-family:var(--font-display); font-size:.9rem; letter-spacing:1px; color:var(--text-muted)">
+        Ford Kuga — Klimatyzacja
+      </div>
+      <div class="before-after">
+        <div class="ba-side">
+          <div class="ba-label before">PRZED</div>
+          <div class="ba-cell">
+            Brak chłodzenia, brudna wkładka kabinowa, nieprzyjemny zapach. Wyciek czynnika R134a.
+          </div>
+        </div>
+        <div class="ba-side">
+          <div class="ba-label after">PO</div>
+          <div class="ba-cell">
+            Nowy czynnik, wymiana filtra kabinowego, dezynfekcja ozono. Temperatura 4°C przy 35°C na zewnątrz.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="margin-bottom:.75rem; font-family:var(--font-display); font-size:.9rem; letter-spacing:1px; color:var(--text-muted)">
+        Ford Fiesta ST — Hamulce sportowe
+      </div>
+      <div class="before-after">
+        <div class="ba-side">
+          <div class="ba-label before">PRZED</div>
+          <div class="ba-cell">
+            Zużyte tarcze z rysami głębokości 2mm, klocki przy granicy zużycia, długa droga hamowania.
+          </div>
+        </div>
+        <div class="ba-side">
+          <div class="ba-label after">PO</div>
+          <div class="ba-cell">
+            Ventylowane tarcze EBC + klocki sportowe Ferodo. Droga hamowania skrócona o 8m przy 100km/h.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section>
+  <div class="section-eyebrow">Wideo</div>
+  <div class="divider"></div>
+  <h2 class="section-title">Nasz warsztat <span>w akcji</span></h2>
+  <p class="section-sub">Obejrzyj jak pracujemy i poznaj nasz nowoczesny warsztat od środka.</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5rem">
+    <div style="background:var(--dark-card); border:1px solid var(--dark-border); border-radius:12px; overflow:hidden; cursor:pointer; transition:all .3s ease" onmouseover="this.style.borderColor='var(--neon-cyan)'" onmouseout="this.style.borderColor='var(--dark-border)'">
+      <div style="height:160px; background:linear-gradient(135deg, rgba(0,50,100,.5), rgba(0,10,30,.8)); display:flex; align-items:center; justify-content:center; font-size:3rem">▶️</div>
+      <div style="padding:1rem">
+        <div style="font-weight:700; margin-bottom:.25rem">Tour po warsztacie</div>
+        <div style="font-size:.8rem; color:var(--text-muted)">5:32 min • Ford Fach Official</div>
+      </div>
+    </div>
+    <div style="background:var(--dark-card); border:1px solid var(--dark-border); border-radius:12px; overflow:hidden; cursor:pointer; transition:all .3s ease" onmouseover="this.style.borderColor='var(--neon-cyan)'" onmouseout="this.style.borderColor='var(--dark-border)'">
+      <div style="height:160px; background:linear-gradient(135deg, rgba(0,50,100,.5), rgba(0,10,30,.8)); display:flex; align-items:center; justify-content:center; font-size:3rem">▶️</div>
+      <div style="padding:1rem">
+        <div style="font-weight:700; margin-bottom:.25rem">Diagnoza Ford EcoBoost</div>
+        <div style="font-size:.8rem; color:var(--text-muted)">8:15 min • Porady techniczne</div>
+      </div>
+    </div>
+    <div style="background:var(--dark-card); border:1px solid var(--dark-border); border-radius:12px; overflow:hidden; cursor:pointer; transition:all .3s ease" onmouseover="this.style.borderColor='var(--neon-cyan)'" onmouseout="this.style.borderColor='var(--dark-border)'">
+      <div style="height:160px; background:linear-gradient(135deg, rgba(0,50,100,.5), rgba(0,10,30,.8)); display:flex; align-items:center; justify-content:center; font-size:3rem">▶️</div>
+      <div style="padding:1rem">
+        <div style="font-weight:700; margin-bottom:.25rem">Serwis Mach-E EV</div>
+        <div style="font-size:.8rem; color:var(--text-muted)">6:48 min • Pojazdy elektryczne</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align:center; background: linear-gradient(135deg, rgba(0,51,102,.3), rgba(0,100,200,.15))">
+  <h2 class="section-title">Chcesz zobaczyć <span>więcej</span>?</h2>
+  <p class="section-sub" style="margin:0 auto 2.5rem">Obserwuj nas w mediach społecznościowych lub odwiedź nas osobiście.</p>
+  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap">
+    <a href="kontakt.html" class="btn-primary">📍 Znajdź nas</a>
+    <a href="#" class="btn-outline">📸 Instagram</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="logo.svg" alt="Ford Fach" style="height:56px"/>
+      <p>Profesjonalny warsztat samochodowy specjalizujący się w markach Ford. Certyfikowani mechanicy, oryginalne części, gwarancja jakości.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Nawigacja</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Strona Główna</a></li>
+        <li><a href="uslugi.html">Usługi</a></li>
+        <li><a href="o-nas.html">O Nas</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Usługi</div>
+      <ul class="footer-links">
+        <li><a href="uslugi.html">Naprawa Silnika</a></li>
+        <li><a href="uslugi.html">Diagnostyka</a></li>
+        <li><a href="uslugi.html">Klimatyzacja</a></li>
+        <li><a href="uslugi.html">Hamulce</a></li>
+        <li><a href="uslugi.html">Przegląd Okresowy</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Kontakt</div>
+      <ul class="footer-links">
+        <li><a href="tel:+48123456789">📞 +48 123 456 789</a></li>
+        <li><a href="mailto:kontakt@fordfach.pl">✉ kontakt@fordfach.pl</a></li>
+        <li><a href="#">📍 ul. Mechaniczna 12, Warszawa</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span class="current-year"></span> Ford Fach. Wszelkie prawa zastrzeżone.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">f</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.gallery-masonry-item').forEach(item => {
+    if (cat === 'all' || item.dataset.category === cat) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
