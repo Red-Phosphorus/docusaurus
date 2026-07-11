@@ -572,7 +572,10 @@ section { padding: 100px 5vw; }
 
 @keyframes spin-ring { to { transform: rotate(360deg); } }
 
-.logo-ring svg {
+.logo-ring svg,
+.logo-ring img {
+  position: relative;
+  z-index: 1;
   width: 220px;
   filter: drop-shadow(0 0 30px rgba(0,212,255,.5)) drop-shadow(0 0 60px rgba(0,50,150,.4));
 }
