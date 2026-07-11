@@ -62,7 +62,7 @@ async function getTerserMinifier(): Promise<HtmlMinifier> {
         return {code, warnings: []};
       } catch (err) {
         throw new Error(`HTML minification failed (Terser)`, {
-          cause: err as Error,
+          cause: err,
         });
       }
     },
@@ -83,6 +83,10 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
           removeComments: false,
           // TODO maybe it's fine to only keep <!-- --> React comments?
           preserveComments: [],
+
+          // Keep <head> tag: important for social image crawlers like LinkedIn
+          // See https://github.com/swc-project/swc/issues/10994
+          tagOmission: 'keep-head-and-body',
 
           // Sorting these attributes (class) can lead to React hydration errors
           sortSpaceSeparatedAttributeValues: false,
@@ -112,7 +116,7 @@ async function getSwcMinifier(): Promise<HtmlMinifier> {
         };
       } catch (err) {
         throw new Error(`HTML minification failed (SWC)`, {
-          cause: err as Error,
+          cause: err,
         });
       }
     },

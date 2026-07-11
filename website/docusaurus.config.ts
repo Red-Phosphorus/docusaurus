@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import path from 'path';
+// eslint-disable-next-line import/default
 import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -25,7 +26,7 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 
-import type {Config, DocusaurusConfig} from '@docusaurus/types';
+import type {Config, DocusaurusConfig, VcsPreset} from '@docusaurus/types';
 
 import type * as Preset from '@docusaurus/preset-classic';
 import type {Options as DocsOptions} from '@docusaurus/plugin-content-docs';
@@ -33,6 +34,9 @@ import type {Options as BlogOptions} from '@docusaurus/plugin-content-blog';
 import type {Options as PageOptions} from '@docusaurus/plugin-content-pages';
 import type {Options as IdealImageOptions} from '@docusaurus/plugin-ideal-image';
 import type {Options as ClientRedirectsOptions} from '@docusaurus/plugin-client-redirects';
+import type {ThemeConfig as LiveCodeBlockThemeConfig} from '@docusaurus/theme-live-codeblock';
+
+type ThemeConfig = Preset.ThemeConfig & LiveCodeBlockThemeConfig;
 
 const ArchivedVersionsDropdownItems = Object.entries(VersionsArchived).splice(
   0,
@@ -94,12 +98,12 @@ function getNextVersionName() {
 
 // Artificial way to crash the SSR rendering and test errors
 // See website/_dogfooding/_pages tests/crashTest.tsx
-// Test with: DOCUSAURUS_CRASH_TEST=true yarn build:website:fast
+// Test with: DOCUSAURUS_CRASH_TEST=true pnpm build:website:fast
 const crashTest = process.env.DOCUSAURUS_CRASH_TEST === 'true';
 
 // By default, we use Docusaurus Faster
 // DOCUSAURUS_SLOWER=true is useful for benchmarking faster against slower
-// hyperfine --prepare 'yarn clear:website' --runs 3 'DOCUSAURUS_SLOWER=true yarn build:website:fast' 'yarn build:website:fast'
+// hyperfine --prepare 'pnpm clear:website' --runs 3 'DOCUSAURUS_SLOWER=true pnpm build:website:fast' 'pnpm build:website:fast'
 const isSlower = process.env.DOCUSAURUS_SLOWER === 'true';
 if (isSlower) {
   console.log('🐢 Using slower Docusaurus build');
@@ -107,6 +111,8 @@ if (isSlower) {
 
 const router = process.env
   .DOCUSAURUS_ROUTER as DocusaurusConfig['future']['experimental_router'];
+
+const vcs = process.env.DOCUSAURUS_SITE_VCS as VcsPreset;
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -160,7 +166,8 @@ function getLocalizedConfigValue(key: keyof typeof ConfigLocalized) {
 // By default, we don't want to run "git log" commands on i18n sites
 // This makes localized sites build much slower on Netlify
 // See also https://github.com/facebook/docusaurus/issues/11208
-const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale;
+// const showLastUpdate = process.env.DOCUSAURUS_CURRENT_LOCALE === defaultLocale;
+const showLastUpdate = true;
 
 export default async function createConfigAsync() {
   return {
@@ -173,7 +180,7 @@ export default async function createConfigAsync() {
     url: 'https://docusaurus.io',
     future: {
       v4: !isSlower, // Not accurate, but good enough
-      experimental_faster: isSlower
+      faster: isSlower
         ? false
         : {
             // Verbose object: easier to independently test single attributes
@@ -185,10 +192,9 @@ export default async function createConfigAsync() {
             rspackBundler: true,
             rspackPersistentCache: true,
             ssgWorkerThreads: true,
+            gitEagerVcs: true,
           },
-      experimental_storage: {
-        namespace: true,
-      },
+      experimental_vcs: vcs,
       experimental_router: router,
     },
     // Dogfood both settings:
@@ -204,15 +210,23 @@ export default async function createConfigAsync() {
     i18n: {
       defaultLocale,
 
+      localeConfigs: {
+        [defaultLocale]: {
+          // Forces the translation process to run for default locale
+          // Permits to dogfood translation key conflicts detection
+          translate: true,
+        },
+      },
+
       locales:
         isDeployPreview || isBranchDeploy
           ? // Deploy preview and branch deploys: keep them fast!
             [defaultLocale]
           : isI18nStaging
-          ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
-            [defaultLocale, 'ja']
-          : // Production locales
-            [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
+            ? // Staging locales: https://docusaurus-i18n-staging.netlify.app/
+              [defaultLocale, 'ja']
+            : // Production locales
+              [defaultLocale, 'fr', 'pt-BR', 'ko', 'zh-CN'],
     },
     markdown: {
       format: 'detect',
@@ -221,7 +235,9 @@ export default async function createConfigAsync() {
         onBrokenMarkdownLinks: 'warn',
       },
       mdx1Compat: {
-        // comments: false,
+        // Needed for us until Crowdin improves support
+        // See https://github.com/facebook/docusaurus/pull/11847#issuecomment-4183213345
+        admonitions: true,
       },
       remarkRehypeOptions: {
         footnoteLabel: getLocalizedConfigValue('remarkRehypeOptions_footnotes'),
@@ -655,6 +671,21 @@ export default async function createConfigAsync() {
         appId: 'X1Z85QJPUV',
         apiKey: 'bf7211c161e8205da2f933a02534105a',
         indexName: 'docusaurus-2',
+
+        // TODO Docusaurus v4: remove after we drop DocSearch v3
+        //  temporary, for DocSearch v3/v4 conditional Ask AI integration
+        //  see https://github.com/facebook/docusaurus/pull/11327
+        ...(require('@docsearch/react').version.startsWith('4.')
+          ? {
+              askAi: {
+                // cSpell:ignore IMYF
+                assistantId: 'RgIMYFUmTfrN',
+                indexName: 'docusaurus-markdown',
+                suggestedQuestions: true,
+              },
+            }
+          : {}),
+
         replaceSearchResultPathname:
           isDev || isDeployPreview
             ? {
@@ -872,6 +903,6 @@ export default async function createConfigAsync() {
         },
         copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc. Built with Docusaurus.`,
       },
-    } satisfies Preset.ThemeConfig,
+    } satisfies ThemeConfig,
   } satisfies Config;
 }

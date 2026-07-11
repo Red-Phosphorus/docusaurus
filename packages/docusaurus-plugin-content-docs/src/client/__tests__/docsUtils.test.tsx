@@ -4,9 +4,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+// @vitest-environment jsdom
+import {describe, expect, it} from 'vitest';
 import React from 'react';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {StaticRouter} from 'react-router-dom';
 import {Context} from '@docusaurus/core/src/client/docusaurusContext';
 import {
@@ -110,7 +111,7 @@ describe('useDocById', () => {
 
   it('throws for doc3', () => {
     expect(() => mockUseDocById('doc3')).toThrowErrorMatchingInlineSnapshot(
-      `"no version doc found by id=doc3"`,
+      `[Error: no version doc found by id=doc3]`,
     );
   });
 });
@@ -568,10 +569,25 @@ describe('useSidebarBreadcrumbs', () => {
 
   it('returns first level link', () => {
     const pathname = '/somePathName';
-    const sidebar = [testCategory(), testLink({href: pathname})];
+    const sidebar = [testCategory(), testLink({href: pathname, docId: 'doc1'})];
 
     expect(createUseSidebarBreadcrumbsMock(sidebar)(pathname)).toEqual([
       sidebar[1],
+    ]);
+  });
+
+  it('returns doc links only', () => {
+    const pathname = '/somePathName';
+
+    // A link that is not a doc link should not appear in the breadcrumbs
+    // See https://github.com/facebook/docusaurus/pull/11616
+    const nonDocLink = testLink({href: pathname});
+    const docLink = testLink({href: pathname, docId: 'doc1'});
+
+    const sidebar = [testCategory(), nonDocLink, docLink];
+
+    expect(createUseSidebarBreadcrumbsMock(sidebar)(pathname)).toEqual([
+      docLink,
     ]);
   });
 
@@ -613,7 +629,7 @@ describe('useSidebarBreadcrumbs', () => {
   it('returns nested link', () => {
     const pathname = '/somePathName';
 
-    const link = testLink({href: pathname});
+    const link = testLink({href: pathname, docId: 'docNested'});
 
     const categoryLevel3 = testCategory({
       items: [testLink(), link, testLink()],
@@ -656,6 +672,35 @@ describe('useSidebarBreadcrumbs', () => {
     expect(
       createUseSidebarBreadcrumbsMock(undefined, false)('/foo'),
     ).toBeNull();
+  });
+
+  // Regression test for https://github.com/facebook/docusaurus/issues/11612
+  it('returns the category that owns the URL, not a category with a link pointing to it', () => {
+    const categoryA: PropSidebarItemCategory = testCategory({
+      label: 'Category A',
+      href: '/category-a',
+      items: [
+        testLink({href: '/category-a/doc1', label: 'Doc 1'}),
+        testLink({href: '/category-a/doc2', label: 'Doc 2'}),
+        // This link points to Category B's generated-index
+        testLink({href: '/category-b', label: 'Go to Category B'}),
+      ],
+    });
+
+    const categoryB: PropSidebarItemCategory = testCategory({
+      label: 'Category B',
+      href: '/category-b',
+      items: [
+        testLink({href: '/category-b/item1', label: 'Item 1'}),
+        testLink({href: '/category-b/item2', label: 'Item 2'}),
+      ],
+    });
+
+    const sidebar: PropSidebar = [categoryA, categoryB];
+
+    expect(createUseSidebarBreadcrumbsMock(sidebar)('/category-b')).toEqual([
+      categoryB,
+    ]);
   });
 });
 
@@ -708,12 +753,16 @@ describe('useCurrentSidebarCategory', () => {
     expect(mockUseCurrentSidebarCategory('/cat2')).toEqual(category2);
   });
 
-  it('works for category link item', () => {
-    const link = testLink({href: '/my/link/path'});
+  it('works for category doc link item', () => {
+    const pathname = '/my/link/path';
+    const nonDocLink = testLink({href: pathname});
+    const docLink = testLink({href: pathname, docId: 'doc1'});
+
     const category: PropSidebarItemCategory = testCategory({
       href: '/cat1',
-      items: [testLink(), testLink(), link, testCategory()],
+      items: [testLink(), testLink(), nonDocLink, docLink, testCategory()],
     });
+
     const sidebar: PropSidebar = [
       testLink(),
       testLink(),
@@ -724,18 +773,28 @@ describe('useCurrentSidebarCategory', () => {
     const mockUseCurrentSidebarCategory =
       createUseCurrentSidebarCategoryMock(sidebar);
 
-    expect(mockUseCurrentSidebarCategory('/my/link/path')).toEqual(category);
+    expect(mockUseCurrentSidebarCategory(pathname)).toEqual(category);
   });
 
   it('works for nested category link item', () => {
-    const link = testLink({href: '/my/link/path'});
+    const pathname = '/my/link/path';
+    const nonDocLink = testLink({href: pathname});
+    const docLink = testLink({href: pathname, docId: 'doc1'});
+
     const category2: PropSidebarItemCategory = testCategory({
       href: '/cat2',
-      items: [testLink(), testLink(), link, testCategory()],
+      items: [
+        testLink(),
+        testLink(),
+        testCategory({items: [nonDocLink]}),
+        nonDocLink,
+        docLink,
+        testCategory(),
+      ],
     });
     const category1: PropSidebarItemCategory = testCategory({
       href: '/cat1',
-      items: [testLink(), testLink(), category2, testCategory()],
+      items: [testLink(), nonDocLink, testLink(), category2, testCategory()],
     });
     const sidebar: PropSidebar = [
       testLink(),
@@ -768,7 +827,7 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"/cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages."`,
+      `[Error: /cat is not associated with a category. useCurrentSidebarCategory() should only be used on category index pages.]`,
     );
   });
 
@@ -777,8 +836,40 @@ describe('useCurrentSidebarCategory', () => {
     expect(() =>
       mockUseCurrentSidebarCategory('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `[Error: Unexpected: cant find current sidebar in context]`,
     );
+  });
+
+  // Regression test for https://github.com/facebook/docusaurus/issues/11612
+  it('returns the category that owns the URL, not a category with a link pointing to it', () => {
+    const categoryA: PropSidebarItemCategory = testCategory({
+      label: 'Category A',
+      href: '/category-a',
+      items: [
+        testLink({href: '/category-a/doc1', label: 'Doc 1'}),
+        testLink({href: '/category-a/doc2', label: 'Doc 2'}),
+        // This link points to Category B's generated-index
+        testLink({href: '/category-b', label: 'Go to Category B'}),
+      ],
+    });
+
+    const categoryB: PropSidebarItemCategory = testCategory({
+      label: 'Category B',
+      href: '/category-b',
+      items: [
+        testLink({href: '/category-b/item1', label: 'Item 1'}),
+        testLink({href: '/category-b/item2', label: 'Item 2'}),
+      ],
+    });
+
+    const sidebar: PropSidebar = [categoryA, categoryB];
+
+    const mockUseCurrentSidebarCategory =
+      createUseCurrentSidebarCategoryMock(sidebar);
+
+    // When visiting /category-b, we should get Category B (the owner),
+    // not Category A (which just has a link to it)
+    expect(mockUseCurrentSidebarCategory('/category-b')).toEqual(categoryB);
   });
 });
 
@@ -805,10 +896,10 @@ describe('useCurrentSidebarSiblings', () => {
       testCategory(),
     ];
 
-    const mockUseCurrentSidebarCategory =
+    const mockUseCurrentSidebarSiblings =
       createUseCurrentSidebarSiblingsMock(sidebar);
 
-    expect(mockUseCurrentSidebarCategory('/cat')).toEqual(category.items);
+    expect(mockUseCurrentSidebarSiblings('/cat')).toEqual(category.items);
   });
 
   it('works for sidebar root', () => {
@@ -823,10 +914,10 @@ describe('useCurrentSidebarSiblings', () => {
       testCategory(),
     ];
 
-    const mockUseCurrentSidebarCategory =
+    const mockUseCurrentSidebarSiblings =
       createUseCurrentSidebarSiblingsMock(sidebar);
 
-    expect(mockUseCurrentSidebarCategory('/rootLink')).toEqual(sidebar);
+    expect(mockUseCurrentSidebarSiblings('/rootLink')).toEqual(sidebar);
   });
 
   it('works for nested sidebar category', () => {
@@ -852,10 +943,13 @@ describe('useCurrentSidebarSiblings', () => {
   });
 
   it('works for category link item', () => {
-    const link = testLink({href: '/my/link/path'});
+    const pathname = '/my/link/path';
+    const nonDocLink = testLink({href: pathname});
+    const docLink = testLink({href: pathname, docId: 'doc1'});
+
     const category: PropSidebarItemCategory = testCategory({
       href: '/cat1',
-      items: [testLink(), testLink(), link, testCategory()],
+      items: [testLink(), testLink(), nonDocLink, docLink, testCategory()],
     });
     const sidebar: PropSidebar = [
       testLink(),
@@ -864,23 +958,24 @@ describe('useCurrentSidebarSiblings', () => {
       testCategory(),
     ];
 
-    const mockUseCurrentSidebarCategory =
+    const mockUseCurrentSidebarSiblings =
       createUseCurrentSidebarSiblingsMock(sidebar);
 
-    expect(mockUseCurrentSidebarCategory('/my/link/path')).toEqual(
-      category.items,
-    );
+    expect(mockUseCurrentSidebarSiblings(pathname)).toEqual(category.items);
   });
 
   it('works for nested category link item', () => {
-    const link = testLink({href: '/my/link/path'});
+    const pathname = '/my/link/path';
+    const nonDocLink = testLink({href: pathname});
+    const docLink = testLink({href: pathname, docId: 'doc1'});
+
     const category2: PropSidebarItemCategory = testCategory({
       href: '/cat2',
-      items: [testLink(), testLink(), link, testCategory()],
+      items: [testLink(), testLink(), nonDocLink, testCategory()],
     });
     const category1: PropSidebarItemCategory = testCategory({
       href: '/cat1',
-      items: [testLink(), testLink(), category2, testCategory()],
+      items: [testLink(), testLink(), category2, docLink, testCategory()],
     });
     const sidebar: PropSidebar = [
       testLink(),
@@ -889,20 +984,18 @@ describe('useCurrentSidebarSiblings', () => {
       testCategory(),
     ];
 
-    const mockUseCurrentSidebarCategory =
+    const mockUseCurrentSidebarSiblings =
       createUseCurrentSidebarSiblingsMock(sidebar);
 
-    expect(mockUseCurrentSidebarCategory('/my/link/path')).toEqual(
-      category2.items,
-    );
+    expect(mockUseCurrentSidebarSiblings(pathname)).toEqual(category1.items);
   });
 
   it('throws when sidebar is missing', () => {
-    const mockUseCurrentSidebarCategory = createUseCurrentSidebarSiblingsMock();
+    const mockUseCurrentSidebarSiblings = createUseCurrentSidebarSiblingsMock();
     expect(() =>
-      mockUseCurrentSidebarCategory('/cat'),
+      mockUseCurrentSidebarSiblings('/cat'),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unexpected: cant find current sidebar in context"`,
+      `[Error: Unexpected: cant find current sidebar in context]`,
     );
   });
 });

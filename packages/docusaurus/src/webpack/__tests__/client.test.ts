@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, it} from 'vitest';
 import webpack from 'webpack';
 
 import {createBuildClientConfig, createStartClientConfig} from '../client';
-import {loadSetup} from '../../server/__tests__/testUtils';
+import {loadSiteFixture} from '../../server/__tests__/testUtils';
 import {createConfigureWebpackUtils} from '../configure';
 import {
   DEFAULT_FASTER_CONFIG,
@@ -23,7 +24,7 @@ function createTestConfigureWebpackUtils() {
 
 describe('webpack dev config', () => {
   it('simple start', async () => {
-    const {props} = await loadSetup('simple-site');
+    const {props} = await loadSiteFixture('simple-site');
     const {clientConfig} = await createStartClientConfig({
       props,
       faster: DEFAULT_FASTER_CONFIG,
@@ -35,7 +36,7 @@ describe('webpack dev config', () => {
   });
 
   it('simple build', async () => {
-    const {props} = await loadSetup('simple-site');
+    const {props} = await loadSiteFixture('simple-site');
     const {config} = await createBuildClientConfig({
       props,
       faster: DEFAULT_FASTER_CONFIG,
@@ -47,7 +48,7 @@ describe('webpack dev config', () => {
   });
 
   it('custom start', async () => {
-    const {props} = await loadSetup('custom-site');
+    const {props} = await loadSiteFixture('custom-site');
     const {clientConfig} = await createStartClientConfig({
       props,
       faster: DEFAULT_FASTER_CONFIG,
@@ -59,7 +60,7 @@ describe('webpack dev config', () => {
   });
 
   it('custom build', async () => {
-    const {props} = await loadSetup('custom-site');
+    const {props} = await loadSiteFixture('custom-site');
     const {config} = await createBuildClientConfig({
       props,
       faster: DEFAULT_FASTER_CONFIG,

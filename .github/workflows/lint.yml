@@ -20,25 +20,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          cache: yarn
+          cache: pnpm
       - name: Installation
-        run: yarn install --frozen-lockfile || yarn install --frozen-lockfile || yarn install --frozen-lockfile
-      - name: Check immutable yarn.lock
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+      - name: Check immutable pnpm-lock.yaml
         run: git diff --exit-code
-
-      - name: Check for suspicious yarn.lock
-        # for allowed aliases, see https://github.com/yargs/cliui/pull/139/files#r1670711112
-        run: yarn lockfile-lint --path yarn.lock --type yarn --allowed-hosts yarn --validate-https --validate-package-names --validate-integrity --empty-hostname=false --allowed-package-name-aliases react-loadable react-helmet-async string-width-cjs strip-ansi-cjs wrap-ansi-cjs
 
       - name: Lint
         run: |
           echo "::add-matcher::.github/workflows/cspell-problem-matcher.json"
-          yarn lint:ci
+          pnpm lint:ci
 
-      - name: Prettier Code
-        run: yarn format:diff
+      - name: Check Formatting
+        run: pnpm format:diff

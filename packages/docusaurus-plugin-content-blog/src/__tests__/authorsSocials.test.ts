@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {normalizeSocials} from '../authorsSocials';
 import type {AuthorSocials} from '@docusaurus/plugin-content-blog';
 
@@ -21,11 +22,13 @@ describe('normalizeSocials', () => {
       twitch: 'gingergeek',
       youtube: 'gingergeekuk',
       mastodon: 'Mastodon',
+      email: 'seb@example.com',
     };
 
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
         "bluesky": "https://bsky.app/profile/gingergeek.co.uk",
+        "email": "mailto:seb@example.com",
         "github": "https://github.com/ozakione",
         "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
@@ -48,11 +51,13 @@ describe('normalizeSocials', () => {
       instaGRam: 'thisweekinreact',
       BLUESKY: 'gingergeek.co.uk',
       tHrEaDs: 'gingergeekuk',
+      eMAil: 'seb@example.com',
     };
 
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
         "bluesky": "https://bsky.app/profile/gingergeek.co.uk",
+        "email": "mailto:seb@example.com",
         "github": "https://github.com/ozakione",
         "instagram": "https://www.instagram.com/thisweekinreact",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
@@ -69,6 +74,7 @@ describe('normalizeSocials', () => {
       linkedin: 'https://linkedin.com/ozakione',
       github: 'https://github.com/ozakione',
       stackoverflow: 'https://stackoverflow.com/ozakione',
+      email: 'mailto:seb@example.com',
     };
 
     expect(normalizeSocials(socials)).toEqual(socials);
@@ -81,10 +87,12 @@ describe('normalizeSocials', () => {
       github: 'https://github.com/ozakione',
       stackoverflow: 'https://stackoverflow.com/ozakione',
       mastodon: 'https://hachyderm.io/@hachyderm',
+      email: 'mailto:seb@example.com',
     };
 
     expect(normalizeSocials(socials)).toMatchInlineSnapshot(`
       {
+        "email": "mailto:seb@example.com",
         "github": "https://github.com/ozakione",
         "linkedin": "https://www.linkedin.com/in/ozakione/",
         "mastodon": "https://hachyderm.io/@hachyderm",
@@ -112,8 +120,8 @@ describe('normalizeSocials', () => {
     };
 
     expect(() => normalizeSocials(socials)).toThrowErrorMatchingInlineSnapshot(`
-      "Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
-      Social platform 'twitter' has illegal value '/ozakione/XYZ'"
+      [Error: Author socials should be usernames/userIds/handles, or fully qualified HTTP(s) absolute URLs.
+      Social platform 'twitter' has illegal value '/ozakione/XYZ']
     `);
   });
 

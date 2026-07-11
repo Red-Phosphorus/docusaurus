@@ -7,8 +7,7 @@
 /// <reference types="@docusaurus/module-type-aliases" />
 
 declare module '@docusaurus/plugin-content-blog' {
-  import type {LoadedMDXContent} from '@docusaurus/mdx-loader';
-  import type {MDXOptions} from '@docusaurus/mdx-loader';
+  import type {LoadedMDXContent, MDXOptions} from '@docusaurus/mdx-loader';
   import type {
     FrontMatterTag,
     TagMetadata,
@@ -431,7 +430,7 @@ declare module '@docusaurus/plugin-content-blog' {
   export type PluginOptions = MDXOptions &
     TagsPluginOptions & {
       /** Plugin ID. */
-      id?: string;
+      id: string;
       /**
        * Path to the blog content directory on the file system, relative to site
        * directory.
@@ -583,9 +582,10 @@ declare module '@docusaurus/plugin-content-blog' {
   export type AuthorsMap = {[authorKey: string]: AuthorWithKey};
 
   export type BlogContent = {
-    blogSidebarTitle: string;
+    blogTitle: string; // for translation purposes
+    blogDescription: string; // for translation purposes
+    blogSidebarTitle: string; // for translation purposes
     blogPosts: BlogPost[];
-    blogListPaginated: BlogPaginated[];
     blogTags: BlogTags;
     blogTagsListPath: string;
     authorsMap?: AuthorsMap;

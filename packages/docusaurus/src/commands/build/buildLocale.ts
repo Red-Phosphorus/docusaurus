@@ -19,15 +19,15 @@ import {
   executePluginsConfigureWebpack,
 } from '../../webpack/configure';
 import {executeSSG} from '../../ssg/ssgExecutor';
+import clearPath from '../utils/clearPath';
+import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
+import type {BuildCLIOptions} from './build';
+import type {SiteCollectedData} from '../../common';
 import type {
   ConfigureWebpackUtils,
   LoadedPlugin,
   Props,
 } from '@docusaurus/types';
-import type {SiteCollectedData} from '../../common';
-import {BuildCLIOptions} from './build';
-import clearPath from '../utils/clearPath';
-import {isAutomaticBaseUrlLocalizationDisabled} from './buildUtils';
 
 export type BuildLocaleParams = {
   siteDir: string;
@@ -36,6 +36,7 @@ export type BuildLocaleParams = {
 };
 
 const SkipBundling = process.env.DOCUSAURUS_SKIP_BUNDLING === 'true';
+const ReturnAfterLoading = process.env.DOCUSAURUS_RETURN_AFTER_LOADING === 'true';
 const ExitAfterLoading = process.env.DOCUSAURUS_EXIT_AFTER_LOADING === 'true';
 const ExitAfterBundling = process.env.DOCUSAURUS_EXIT_AFTER_BUNDLING === 'true';
 
@@ -61,6 +62,9 @@ export async function buildLocale({
     }),
   );
 
+  if (ReturnAfterLoading) {
+    return;
+  }
   if (ExitAfterLoading) {
     return process.exit(0);
   }
@@ -154,10 +158,6 @@ async function executePluginsPostBuild({
   props: Props;
   collectedData: SiteCollectedData;
 }) {
-  const head = props.siteConfig.future.v4.removeLegacyPostBuildHeadAttribute
-    ? {}
-    : _.mapValues(collectedData, (d) => d.metadata.helmet!);
-
   const routesBuildMetadata = _.mapValues(
     collectedData,
     (d) => d.metadata.public,
@@ -170,7 +170,6 @@ async function executePluginsPostBuild({
       }
       await plugin.postBuild({
         ...props,
-        head,
         routesBuildMetadata,
         content: plugin.content,
       });
@@ -213,7 +212,7 @@ async function getBuildClientConfig({
   const result = await createBuildClientConfig({
     props,
     minify: cliOptions.minify ?? true,
-    faster: props.siteConfig.future.experimental_faster,
+    faster: props.siteConfig.future.faster,
     configureWebpackUtils,
     bundleAnalyzer: cliOptions.bundleAnalyzer ?? false,
   });

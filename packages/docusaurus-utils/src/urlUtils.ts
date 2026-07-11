@@ -138,8 +138,8 @@ export function fileToPath(file: string): string {
  * Similar to `encodeURI`, but uses `encodeURIComponent` and assumes there's no
  * query.
  *
- * `encodeURI("/question?/answer")` => `"/question?/answer#section"`;
- * `encodePath("/question?/answer#section")` => `"/question%3F/answer%23foo"`
+ * `encodeURI("/question?/answer")` => `"/question?/answer"`;
+ * `encodePath("/question?/answer#section")` => `"/question%3F/answer%23section"`
  */
 export function encodePath(userPath: string): string {
   return userPath
@@ -156,26 +156,20 @@ export function isValidPathname(str: string): boolean {
   if (!str.startsWith('/')) {
     return false;
   }
-  try {
-    const parsedPathname = new URL(str, 'https://domain.com').pathname;
-    return parsedPathname === str || parsedPathname === encodeURI(str);
-  } catch {
+  const url = URL.parse(str, 'https://domain.com');
+  if (url === null) {
     return false;
   }
+  const parsedPathname = url.pathname;
+  return parsedPathname === str || parsedPathname === encodeURI(str);
 }
 
-export function parseURLOrPath(url: string, base?: string | URL): URL {
-  try {
-    // TODO Docusaurus v4: use URL.parse()
-    //  Node 24 supports it, use URL.parse could be faster?
-    //  see https://kilianvalkhof.com/2024/javascript/the-problem-with-new-url-and-how-url-parse-fixes-that/
-    return new URL(url, base ?? 'https://example.com');
-  } catch (e) {
-    throw new Error(
-      `Can't parse URL ${url}${base ? ` with base ${base}` : ''}`,
-      {cause: e},
-    );
+export function parseURLOrPath(str: string, base?: string | URL): URL {
+  const url = URL.parse(str, base ?? 'https://example.com');
+  if (url) {
+    return url;
   }
+  throw new Error(`Can't parse URL ${str}${base ? ` with base ${base}` : ''}`);
 }
 
 export type URLPath = {pathname: string; search?: string; hash?: string};
@@ -190,8 +184,8 @@ export function toURLPath(url: URL): URLPath {
   const search = url.search
     ? url.search.slice(1)
     : url.href.includes('?')
-    ? ''
-    : undefined;
+      ? ''
+      : undefined;
 
   // Fixes annoying url.hash behavior
   // "" => undefined
@@ -200,8 +194,8 @@ export function toURLPath(url: URL): URLPath {
   const hash = url.hash
     ? url.hash.slice(1)
     : url.href.includes('#')
-    ? ''
-    : undefined;
+      ? ''
+      : undefined;
 
   return {
     pathname,
@@ -319,13 +313,11 @@ export function buildHttpsUrl(
  * `git@github.com:facebook/docusaurus.git`.
  */
 export function hasSSHProtocol(sourceRepoUrl: string): boolean {
-  try {
-    if (new URL(sourceRepoUrl).protocol === 'ssh:') {
-      return true;
-    }
-    return false;
-  } catch {
-    // Fails when there isn't a protocol
+  const url = URL.parse(sourceRepoUrl);
+  if (url === null) {
+    // Recognizes SCP-style addresses, implying SSH
+    // Example: git@github.com:facebook/docusaurus.git
     return /^(?:[\w-]+@)?[\w.-]+:[\w./-]+/.test(sourceRepoUrl);
   }
+  return url.protocol === 'ssh:';
 }

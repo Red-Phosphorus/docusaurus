@@ -80,7 +80,7 @@ export async function loadPagesContent(
     } catch (err) {
       throw new Error(
         `Processing of page source file path=${relativeSource} failed.`,
-        {cause: err as Error},
+        {cause: err},
       );
     }
   }
@@ -98,6 +98,7 @@ async function processPageSourceFile(
 ): Promise<Metadata | undefined> {
   const {context, options, contentPaths} = params;
   const {siteConfig, baseUrl, siteDir, i18n} = context;
+  const vcs = siteConfig.future.experimental_vcs;
   const {editUrl} = options;
 
   // Lookup in localized folder in priority
@@ -180,6 +181,7 @@ async function processPageSourceFile(
     source,
     options,
     frontMatter.last_update,
+    vcs,
   );
 
   if (isDraft({frontMatter})) {

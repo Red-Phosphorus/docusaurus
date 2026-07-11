@@ -142,14 +142,19 @@ async function getRspackMinimizers({
 }: MinimizersConfig): Promise<WebpackPluginInstance[]> {
   const rspack = getCurrentBundlerAsRspack({currentBundler});
   const getBrowserslistQueries = await importGetBrowserslistQueries();
-  const browserslistQueries = getBrowserslistQueries({isServer: false});
+  const browserslistQueries = getBrowserslistQueries({
+    isServer: false,
+    bundlerName: 'rspack',
+  });
   const swcJsMinimizerOptions = await importSwcJsMinimizerOptions();
+
   return [
     // See https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin
     // See https://swc.rs/docs/configuration/minification
     new rspack.SwcJsMinimizerRspackPlugin({
       minimizerOptions: {
         minify: true,
+        ecma: swcJsMinimizerOptions.ecma,
         ...swcJsMinimizerOptions,
       },
     }),

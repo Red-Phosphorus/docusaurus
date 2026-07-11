@@ -14,7 +14,7 @@
 
 import {exec} from 'child_process';
 import {promisify} from 'util';
-import open from 'open';
+import open, {openApp, apps, App, AppName} from 'open';
 import {PerfLogger} from '@docusaurus/logger';
 
 const execPromise = promisify(exec);
@@ -95,6 +95,9 @@ async function tryOpenWithAppleScript({
       );
     }
 
+    // Test this manually with:
+    // osascript ./packages/docusaurus/src/commands/utils/openBrowser/openChrome.applescript "http://localhost:8080" "Google Chrome"
+    // osascript ./packages/docusaurus/src/commands/utils/openBrowser/openChrome.applescript "http://localhost:8080" "Arc"
     async function tryBrowser(browserName: string): Promise<boolean> {
       try {
         // This command runs the openChrome.applescript (copied from CRA)
@@ -130,14 +133,14 @@ async function tryOpenWithAppleScript({
   return false;
 }
 
-function toOpenApp(params: Params): open.App | undefined {
+function toOpenApp(params: Params): App | undefined {
   if (!params.browser) {
     return undefined;
   }
   // Handles "cross-platform" shortcuts like "chrome", "firefox", "edge"
-  if (open.apps[params.browser as open.AppName]) {
+  if (apps[params.browser as AppName]) {
     return {
-      name: open.apps[params.browser as open.AppName],
+      name: apps[params.browser as AppName],
       arguments: params.browserArgs,
     };
   }

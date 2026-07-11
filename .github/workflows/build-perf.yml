@@ -13,7 +13,7 @@ on:
     paths:
       - .github/workflows/build-perf.yml
       - package.json
-      - yarn.lock
+      - pnpm-lock.yaml
       - packages/**
       - website/**
       - '!website/docs/**'
@@ -41,14 +41,16 @@ jobs:
         DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          cache: yarn
+          cache: pnpm
       - name: Track build size changes
-        uses: preactjs/compressed-size-action@946a292cd35bd1088e0d7eb92b69d1a8d5b5d76a # v2
+        uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # v2.10.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           build-script: build:website:fast
@@ -62,6 +64,7 @@ jobs:
           comment-key: DOCUSAURUS_INFRA_${{ matrix.DOCUSAURUS_INFRA }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
   # Ensures build times stay under reasonable thresholds
   build-time:
@@ -73,28 +76,32 @@ jobs:
         DOCUSAURUS_INFRA: ['SLOWER', 'FASTER']
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: lts/*
-          cache: yarn
+          cache: pnpm
       - name: Installation
-        run: yarn || yarn || yarn
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
 
       # Ensure build with a cold cache does not increase too much
       - name: Build (cold cache)
-        run: yarn build:website:fast
+        run: pnpm build:website:fast
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 3 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
       # Ensure build with a warm cache does not increase too much
       - name: Build (warm cache)
-        run: yarn build:website:fast
+        run: pnpm build:website:fast
         # Temporary: upper value for Rspack until incremental cache works better
         timeout-minutes: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 1 || 2  }}
         env:
           DOCUSAURUS_SLOWER: ${{ matrix.DOCUSAURUS_INFRA == 'SLOWER' && 'true' || 'false'  }}
+          DOCUSAURUS_PERF_LOGGER: 'true'
 
     # TODO post a GitHub comment with build with perf warnings?

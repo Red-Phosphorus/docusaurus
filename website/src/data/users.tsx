@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable global-require */
-
 import {translate} from '@docusaurus/Translate';
 import {sortBy} from '@site/src/utils/jsUtils';
 
@@ -158,7 +156,7 @@ const Users: User[] = [
   },
   {
     title: 'Blogasaurus',
-    description: 'A blog written using Docasaurus.',
+    description: 'A blog written using Docusaurus.',
     preview: require('./showcase/blogasaurus.png'),
     website: 'https://blog.palashsh.me/',
     source: 'https://github.com/BattleOfPlassey/blogasaurus',
@@ -860,10 +858,10 @@ const Users: User[] = [
     source: null,
     tags: ['personal'],
   },
-  
-  
-  
-  
+
+
+
+
   {
     title: 'Metro',
     description: 'The JavaScript bundler for React Native',

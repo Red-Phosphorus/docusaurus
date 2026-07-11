@@ -13,7 +13,6 @@ import {
   getCSSExtractPlugin,
   getMinimizers,
 } from '@docusaurus/bundler';
-
 import {getFileLoaderUtils, md5Hash} from '@docusaurus/utils';
 import {loadDocusaurusAliases, loadThemeAliases} from './aliases';
 import {BundlerCPUProfilerPlugin} from './plugins/BundlerCPUProfilerPlugin';
@@ -27,14 +26,6 @@ import type {
 const CSS_REGEX = /\.css$/i;
 const CSS_MODULE_REGEX = /\.module\.css$/i;
 export const clientDir = path.join(__dirname, '..', 'client');
-
-const LibrariesToTranspile = [
-  'copy-text-to-clipboard', // Contains optional catch binding, incompatible with recent versions of Edge
-];
-
-const LibrariesToTranspileRegex = new RegExp(
-  LibrariesToTranspile.map((libName) => `(node_modules/${libName})`).join('|'),
-);
 
 function getReactAliases(siteDir: string): Record<string, string> {
   // Escape hatch
@@ -58,8 +49,7 @@ export function excludeJS(modulePath: string): boolean {
   // Don't transpile node_modules except any docusaurus npm package
   return (
     modulePath.includes('node_modules') &&
-    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath) &&
-    !LibrariesToTranspileRegex.test(modulePath)
+    !/docusaurus(?:(?!node_modules).)*\.jsx?$/.test(modulePath)
   );
 }
 
@@ -140,10 +130,15 @@ export async function createBaseConfig({
       return disabledPersistentCacheValue;
     }
     if (props.currentBundler.name === 'rspack') {
-      if (props.siteConfig.future.experimental_faster.rspackPersistentCache) {
-        // Use cache: true + experiments.cache.type: "persistent"
-        // See https://rspack.dev/config/experiments#persistent-cache
-        return true;
+      if (props.siteConfig.future.faster.rspackPersistentCache) {
+        return {
+          type: 'persistent',
+          // Rspack doesn't have "cache.name" like Webpack
+          // This is not ideal but work around is to merge name/version
+          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
+          version: `${getCacheName()}-${getCacheVersion()}`,
+          buildDependencies: getCacheBuildDependencies(),
+        } as unknown as Configuration['cache'];
       } else {
         return disabledPersistentCacheValue;
       }
@@ -159,47 +154,10 @@ export async function createBaseConfig({
     };
   }
 
-  function getExperiments(): Configuration['experiments'] {
-    if (props.currentBundler.name === 'rspack') {
-      // TODO find a way to type this
-      const experiments: any = {};
-
-      if (!process.env.DOCUSAURUS_NO_PERSISTENT_CACHE) {
-        experiments.cache = {
-          type: 'persistent',
-          // Rspack doesn't have "cache.name" like Webpack
-          // This is not ideal but work around is to merge name/version
-          // See https://github.com/web-infra-dev/rspack/pull/8920#issuecomment-2658938695
-          version: `${getCacheName()}-${getCacheVersion()}`,
-          buildDependencies: getCacheBuildDependencies(),
-        };
-      }
-
-      if (process.env.DISABLE_RSPACK_INCREMENTAL) {
-        // Enabled by default since Rspack 1.4
-        console.log('Rspack incremental disabled');
-        experiments.incremental = false;
-      }
-
-      if (process.env.ENABLE_RSPACK_LAZY_COMPILATION) {
-        console.log('Rspack lazyCompilation enabled');
-        experiments.lazyCompilation = true;
-      }
-
-      // TODO re-enable later, there's an Rspack performance issue
-      //  see https://github.com/facebook/docusaurus/pull/11178
-      experiments.parallelCodeSplitting = false;
-
-      return experiments;
-    }
-    return undefined;
-  }
-
   return {
     mode,
     name,
     cache: getCache(),
-    experiments: getExperiments(),
     output: {
       pathinfo: false,
       path: outDir,

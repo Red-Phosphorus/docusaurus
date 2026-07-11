@@ -13,6 +13,7 @@ import React, {
   useMemo,
   type ReactNode,
 } from 'react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import {ReactContextError} from '../utils/reactUtils';
 import {createStorageSlot} from '../utils/storageUtils';
 import {useThemeConfig} from '../utils/useThemeConfig';
@@ -54,12 +55,6 @@ type ContextValue = {
   readonly colorModeChoice: ColorModeChoice;
   /** Set new color mode. */
   readonly setColorMode: (colorMode: ColorModeChoice) => void;
-
-  // TODO Docusaurus v4
-  //  legacy APIs kept for retro-compatibility: deprecate them
-  readonly isDarkTheme: boolean;
-  readonly setLightTheme: () => void;
-  readonly setDarkTheme: () => void;
 };
 
 const Context = React.createContext<ContextValue | undefined>(undefined);
@@ -124,10 +119,17 @@ function useColorModeState() {
   const {
     colorMode: {defaultMode},
   } = useThemeConfig();
+  const isBrowser = useIsBrowser();
 
-  const [colorMode, setColorModeState] = useState<ColorMode>(defaultMode);
-  const [colorModeChoice, setColorModeChoiceState] =
-    useState<ColorModeChoice>(null);
+  // Since the provider may unmount/remount on client navigation, we need to
+  // reinitialize the state with the correct values to avoid visual glitches.
+  // See also https://github.com/facebook/docusaurus/issues/11399#issuecomment-3279181314
+  const [colorMode, setColorModeState] = useState<ColorMode>(
+    isBrowser ? ColorModeAttribute.get() : defaultMode,
+  );
+  const [colorModeChoice, setColorModeChoiceState] = useState<ColorModeChoice>(
+    isBrowser ? ColorModeChoiceAttribute.get() : null,
+  );
 
   useEffect(() => {
     setColorModeState(ColorModeAttribute.get());
@@ -229,30 +231,6 @@ function useContextValue(): ContextValue {
       colorMode,
       colorModeChoice,
       setColorMode,
-      get isDarkTheme() {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(
-            '`useColorMode().isDarkTheme` is deprecated. Please use `useColorMode().colorMode === "dark"` instead.',
-          );
-        }
-        return colorMode === 'dark';
-      },
-      setLightTheme() {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(
-            '`useColorMode().setLightTheme` is deprecated. Please use `useColorMode().setColorMode("light")` instead.',
-          );
-        }
-        setColorMode('light');
-      },
-      setDarkTheme() {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(
-            '`useColorMode().setDarkTheme` is deprecated. Please use `useColorMode().setColorMode("dark")` instead.',
-          );
-        }
-        setColorMode('dark');
-      },
     }),
     [colorMode, colorModeChoice, setColorMode],
   );

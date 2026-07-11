@@ -7,6 +7,8 @@
 
 import path from 'path';
 import logger from '@docusaurus/logger';
+import combinePromises from 'combine-promises';
+
 import {
   normalizeUrl,
   docuHash,
@@ -17,15 +19,16 @@ import {
   createAbsoluteFilePathMatcher,
   getContentPathList,
   getDataFilePath,
-  DEFAULT_PLUGIN_ID,
   resolveMarkdownLinkPathname,
   getLocaleConfig,
 } from '@docusaurus/utils';
-import {getTagsFilePathsToWatch} from '@docusaurus/utils-validation';
+import {
+  getTagsFilePathsToWatch,
+  getTagsFile,
+} from '@docusaurus/utils-validation';
 import {createMDXLoaderItem} from '@docusaurus/mdx-loader';
 import {
   getBlogTags,
-  paginateBlogPosts,
   shouldBeListed,
   applyProcessBlogPosts,
   generateBlogPosts,
@@ -45,7 +48,6 @@ import type {
   Assets,
   BlogTags,
   BlogContent,
-  BlogPaginated,
 } from '@docusaurus/plugin-content-blog';
 import type {RuleSetRule, RuleSetUseItem} from 'webpack';
 
@@ -85,7 +87,7 @@ export default async function pluginContentBlog(
         })
       : undefined,
   };
-  const pluginId = options.id ?? DEFAULT_PLUGIN_ID;
+  const pluginId = options.id;
 
   const pluginDataDirRoot = path.join(generatedFilesDir, PluginName);
   const dataDir = path.join(pluginDataDirRoot, pluginId);
@@ -116,8 +118,7 @@ export default async function pluginContentBlog(
     const contentDirs = getContentPathList(contentPaths);
 
     const mdxLoaderItem = await createMDXLoaderItem({
-      useCrossCompilerCache:
-        siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+      useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
       admonitions,
       remarkPlugins,
       rehypePlugins,
@@ -230,22 +231,32 @@ export default async function pluginContentBlog(
       const baseBlogUrl = normalizeUrl([baseUrl, routeBasePath]);
       const blogTagsListPath = normalizeUrl([baseBlogUrl, tagsBasePath]);
 
-      const authorsMap = await getAuthorsMap({
-        contentPaths,
-        authorsMapPath,
-        authorsBaseRoutePath: normalizeUrl([
+      async function getAuthorsMapChecked() {
+        const result = await getAuthorsMap({
+          contentPaths,
+          authorsMapPath,
+          authorsBaseRoutePath: normalizeUrl([
+            baseUrl,
+            routeBasePath,
+            authorsBasePath,
+          ]),
           baseUrl,
-          routeBasePath,
-          authorsBasePath,
-        ]),
-        baseUrl,
+        });
+        checkAuthorsMapPermalinkCollisions(result);
+        return result;
+      }
+
+      // Read all the input files in parallel
+      const {authorsMap, tagsFile} = await combinePromises({
+        authorsMap: getAuthorsMapChecked(),
+        tagsFile: getTagsFile({contentPaths, tags: options.tags}),
       });
-      checkAuthorsMapPermalinkCollisions(authorsMap);
 
       let blogPosts = await generateBlogPosts(
         contentPaths,
         context,
         options,
+        tagsFile,
         authorsMap,
       );
       blogPosts = await applyProcessBlogPosts({
@@ -260,9 +271,10 @@ export default async function pluginContentBlog(
 
       if (!blogPosts.length) {
         return {
+          blogTitle,
+          blogDescription,
           blogSidebarTitle,
           blogPosts: [],
-          blogListPaginated: [],
           blogTags: {},
           blogTagsListPath,
           authorsMap,
@@ -291,15 +303,9 @@ export default async function pluginContentBlog(
         }
       });
 
-      const blogListPaginated: BlogPaginated[] = paginateBlogPosts({
-        blogPosts: listedBlogPosts,
-        blogTitle,
-        blogDescription,
-        postsPerPageOption,
-        basePageUrl: baseBlogUrl,
-        pageBasePath,
-      });
-
+      // TODO this is not the correct place to aggregate and paginate tags
+      //  for reasons similar to https://github.com/facebook/docusaurus/pull/11562
+      //  What we should do here is only read the tags file (similar to authors)
       const blogTags: BlogTags = getBlogTags({
         blogPosts,
         postsPerPageOption,
@@ -309,9 +315,10 @@ export default async function pluginContentBlog(
       });
 
       return {
+        blogTitle,
+        blogDescription,
         blogSidebarTitle,
         blogPosts,
-        blogListPaginated,
         blogTags,
         blogTagsListPath,
         authorsMap,

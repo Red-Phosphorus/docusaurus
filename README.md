@@ -17,7 +17,7 @@
   <a href="https://github.com/facebook/docusaurus/actions/workflows/tests.yml"><img src="https://github.com/facebook/docusaurus/actions/workflows/tests.yml/badge.svg" alt="GitHub Actions status"></a>
   <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
   <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/discord/102860784329052160.svg" align="right" alt="Discord Chat" /></a>
-  <a href= "https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
+  <a href="https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
   <a href="#license"><img src="https://img.shields.io/github/license/sourcerer-io/hall-of-fame.svg?colorB=ff0000"></a>
   <a href="https://github.com/facebook/jest"><img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Tested with Jest"></a>
   <a href="https://argos-ci.com" target="_blank" rel="noreferrer noopener" aria-label="Covered by Argos"><img src="https://argos-ci.com/badge.svg" alt="Covered by Argos" width="133" height="20" /></a>
@@ -45,7 +45,7 @@ Short on time? Check out our [5-minute tutorial ⏱️](https://tutorial.docusau
 
 - **Customizable**
 
-> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://docusaurus.io/docs/creating-pages) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/styling-layout).
+> While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/blog), and additional support pages, it is also [customizable](https://docusaurus.io/docs/creating-pages) to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/styling-layout).
 
 ## Installation
 
@@ -120,4 +120,4 @@ The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creat
 
 [![Rocket Validator logo](./admin/img/rocketvalidator-logo.png)](https://rocketvalidator.com/)
 
-[Rocket Validator](https://rocketvalidator.com/) helps us find HTML markup or accessibility issues.
+[Rocket Validator](https://rocketvalidator.com/) helps us find [HTML markup and accessibility issues](https://rocketvalidator.com/stats/docusaurus.io).

@@ -50,23 +50,18 @@ import TabItem from '@theme/TabItem';
 
 ## Comments
 
-Html comment: <!-- comment -->
-
-Html comment multi-line:
-
-<!--
-comment
--->
-
-<!-- prettier-ignore -->
 MDX comment: {/* comment */}
 
-MDX comment multi-line:
+MDX comment in JSX:
 
-<!-- prettier-ignore -->
-{/*
-comment
-*/}
+<>
+  {/* comment */}
+  <div>
+    {/* comment */}
+    TEST
+    {/* comment */}
+  </div>
+</>
 
 ## Import code block from source code file
 
@@ -188,17 +183,19 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 ```
 
-## Custom heading ID {#custom}
+## Classic heading ID syntax \{#classic-heading-id-syntax}
 
-### Weird heading {#你好}
+Dogfood that the classic heading ID syntax `{#id}` remains supported on MDX docs. It requires manual escaping with `\{#id}` since we disabled the MDX v1 compat layer (`markdown.mdx1Compat.headingIds`).
 
-### Weird heading {#2022.1.1}
+### Weird heading \{#你好}
 
-### Weird heading {#a#b}
+### Weird heading \{#2022.1.1}
 
-### Weird heading {#a b}
+### Weird heading \{#a#b}
 
-### Weird heading {#a\{b}
+### Weird heading \{#a b}
+
+### Weird heading \{#a\{b}
 
 ## Pipe
 
@@ -360,15 +357,10 @@ This is a test page to see if Docusaurus Markdown features are working properly
 See [#3337](https://github.com/facebook/docusaurus/issues/3337)
 
 - [/someFile.pdf](/someFile.pdf)
-
 - [/someFile.xyz](/someFile.xyz)
-
 - [/image with space.png](</image with spaces.png>)
-
 - [@site/\_dogfooding/\_asset-tests/someFile.pdf](@site/_dogfooding/_asset-tests/someFile.pdf)
-
 - [@site/\_dogfooding/\_asset-tests/someFile.xyz](@site/_dogfooding/_asset-tests/someFile.xyz)
-
 - [@site/\_dogfooding/\_asset-tests/image with space.png](<@site/_dogfooding/_asset-tests/image with spaces.png>)
 
 ### Linking to non-SPA page hosted within website
@@ -376,12 +368,15 @@ See [#3337](https://github.com/facebook/docusaurus/issues/3337)
 See [#3309](https://github.com/facebook/docusaurus/issues/3309)
 
 - [pathname:///dogfooding/javadoc](pathname:///dogfooding/javadoc)
-
 - [pathname:///dogfooding/javadoc/index.html](pathname:///dogfooding/javadoc/index.html)
-
 - [pathname://../dogfooding/javadoc](pathname://../dogfooding/javadoc)
-
 - [pathname://../dogfooding/javadoc/index.html](pathname://../dogfooding/javadoc/index.html)
+
+### Linking to non-SPA paths with custom schemes
+
+- [customScheme://whatever](customScheme://whatever)
+- [custom-scheme://whatever](custom-scheme://whatever)
+- [custom-sch.eme+-.://whatever](custom-sch.eme+-.://whatever)
 
 ### Linking to non-SPA page with Link component
 

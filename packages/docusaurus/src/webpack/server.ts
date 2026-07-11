@@ -24,7 +24,7 @@ export default async function createServerConfig({
     props,
     isServer: true,
     minify: false,
-    faster: props.siteConfig.future.experimental_faster,
+    faster: props.siteConfig.future.faster,
     configureWebpackUtils,
   });
 
@@ -44,7 +44,7 @@ export default async function createServerConfig({
     output: {
       path: outputDir,
       filename: outputFilename,
-      libraryTarget: 'commonjs2',
+      library: {type: 'commonjs2'},
     },
     plugins: [
       new ProgressBarPlugin({

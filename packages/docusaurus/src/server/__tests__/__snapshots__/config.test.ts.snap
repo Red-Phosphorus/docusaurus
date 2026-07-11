@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
+exports[`loadSiteConfig > website with .cjs siteConfig 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -8,7 +8,14 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -18,13 +25,10 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -46,6 +50,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -67,6 +72,10 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "",
     "themeConfig": {},
@@ -79,7 +88,7 @@ exports[`loadSiteConfig website with .cjs siteConfig 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with ts + js config 1`] = `
+exports[`loadSiteConfig > website with ts + js config 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -87,7 +96,14 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -97,13 +113,10 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -125,6 +138,7 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -146,6 +160,10 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "",
     "themeConfig": {},
@@ -158,7 +176,7 @@ exports[`loadSiteConfig website with ts + js config 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid JS CJS config 1`] = `
+exports[`loadSiteConfig > website with valid JS CJS config 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -166,7 +184,14 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -176,13 +201,10 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -204,6 +226,7 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -225,6 +248,10 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "",
     "themeConfig": {},
@@ -237,7 +264,7 @@ exports[`loadSiteConfig website with valid JS CJS config 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid JS ESM config 1`] = `
+exports[`loadSiteConfig > website with valid JS ESM config 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -245,7 +272,14 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -255,13 +289,10 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -283,6 +314,7 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -304,6 +336,10 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "",
     "themeConfig": {},
@@ -316,7 +352,7 @@ exports[`loadSiteConfig website with valid JS ESM config 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
+exports[`loadSiteConfig > website with valid TypeScript CJS config 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -324,7 +360,14 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -334,13 +377,10 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -362,6 +402,7 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -383,6 +424,10 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "",
     "themeConfig": {},
@@ -395,7 +440,7 @@ exports[`loadSiteConfig website with valid TypeScript CJS config 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
+exports[`loadSiteConfig > website with valid TypeScript ESM config 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -403,7 +448,14 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -413,13 +465,10 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -441,6 +490,7 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -462,6 +512,10 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "",
     "themeConfig": {},
@@ -474,7 +528,7 @@ exports[`loadSiteConfig website with valid TypeScript ESM config 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid async config 1`] = `
+exports[`loadSiteConfig > website with valid async config 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -482,7 +536,14 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -492,13 +553,10 @@ exports[`loadSiteConfig website with valid async config 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -520,6 +578,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -543,6 +602,10 @@ exports[`loadSiteConfig website with valid async config 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "Hello World",
     "themeConfig": {},
@@ -555,7 +618,7 @@ exports[`loadSiteConfig website with valid async config 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid async config creator function 1`] = `
+exports[`loadSiteConfig > website with valid async config creator function 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -563,7 +626,14 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -573,13 +643,10 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -601,6 +668,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -624,6 +692,10 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "Hello World",
     "themeConfig": {},
@@ -636,7 +708,7 @@ exports[`loadSiteConfig website with valid async config creator function 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid config creator function 1`] = `
+exports[`loadSiteConfig > website with valid config creator function 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -644,7 +716,14 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "clientModules": [],
     "customFields": {},
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -654,13 +733,10 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -682,6 +758,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -705,6 +782,10 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "Hello World",
     "themeConfig": {},
@@ -717,7 +798,7 @@ exports[`loadSiteConfig website with valid config creator function 1`] = `
 }
 `;
 
-exports[`loadSiteConfig website with valid siteConfig 1`] = `
+exports[`loadSiteConfig > website with valid siteConfig 1`] = `
 {
   "siteConfig": {
     "baseUrl": "/",
@@ -728,7 +809,14 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     "customFields": {},
     "favicon": "img/docusaurus.ico",
     "future": {
-      "experimental_faster": {
+      "experimental_router": "browser",
+      "experimental_vcs": {
+        "getFileCreationInfo": [Function],
+        "getFileLastUpdateInfo": [Function],
+        "initialize": [Function],
+      },
+      "faster": {
+        "gitEagerVcs": false,
         "lightningCssMinimizer": false,
         "mdxCrossCompilerCache": false,
         "rspackBundler": false,
@@ -738,13 +826,10 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
         "swcJsLoader": false,
         "swcJsMinimizer": false,
       },
-      "experimental_router": "browser",
-      "experimental_storage": {
-        "namespace": false,
-        "type": "localStorage",
-      },
       "v4": {
-        "removeLegacyPostBuildHeadAttribute": false,
+        "fasterByDefault": false,
+        "mdx1CompatDisabledByDefault": false,
+        "siteStorageNamespacing": false,
         "useCssCascadeLayers": false,
       },
     },
@@ -766,6 +851,7 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
       "hooks": {
         "onBrokenMarkdownImages": "throw",
         "onBrokenMarkdownLinks": "warn",
+        "onUnusedMarkdownDirectives": "warn",
       },
       "mdx1Compat": {
         "admonitions": true,
@@ -797,6 +883,10 @@ exports[`loadSiteConfig website with valid siteConfig 1`] = `
     "staticDirectories": [
       "static",
     ],
+    "storage": {
+      "namespace": false,
+      "type": "localStorage",
+    },
     "stylesheets": [],
     "tagline": "Hello World",
     "themeConfig": {},

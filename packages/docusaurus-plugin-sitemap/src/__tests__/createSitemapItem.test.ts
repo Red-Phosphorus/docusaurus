@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {describe, expect, it} from 'vitest';
 import {fromPartial} from '@total-typescript/shoehorn';
+import {TEST_VCS} from '@docusaurus/utils';
 import {createSitemapItem} from '../createSitemapItem';
 import {DEFAULT_OPTIONS} from '../options';
 import type {PluginOptions} from '../options';
@@ -13,6 +15,7 @@ import type {DocusaurusConfig, RouteConfig} from '@docusaurus/types';
 
 const siteConfig: DocusaurusConfig = fromPartial({
   url: 'https://example.com',
+  future: {experimental_vcs: TEST_VCS},
 });
 
 function test(params: {
@@ -104,6 +107,15 @@ describe('createSitemapItem', () => {
                     "url": "https://example.com/routePath",
                   }
               `);
+      });
+
+      it('lastmod from epoch (0) timestamp is not dropped', async () => {
+        await expect(
+          test({
+            options: {lastmod: 'date'},
+            route: {metadata: {lastUpdatedAt: 0}, path: '/routePath'},
+          }),
+        ).resolves.toMatchObject({lastmod: '1970-01-01'});
       });
     });
 

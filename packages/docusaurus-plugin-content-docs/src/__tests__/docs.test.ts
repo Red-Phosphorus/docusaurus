@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {jest} from '@jest/globals';
+import {describe, expect, it, vi} from 'vitest';
 import * as path from 'path';
 import {loadContext} from '@docusaurus/core/src/server/site';
 import {
   createSlugger,
   posixPath,
   DEFAULT_PLUGIN_ID,
-  LAST_UPDATE_FALLBACK,
   getLocaleConfig,
+  TEST_VCS,
 } from '@docusaurus/utils';
 import {getTagsFile} from '@docusaurus/utils-validation';
 import {createSidebarsUtils} from '../sidebars/utils';
@@ -423,7 +423,7 @@ describe('simple site', () => {
   it('docs with function editUrl', async () => {
     const hardcodedEditUrl = 'hardcoded-edit-url';
 
-    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+    const editUrlFunction: EditUrlFunction = vi.fn(() => hardcodedEditUrl);
 
     const {siteDir, context, options, currentVersion, createTestUtilsPartial} =
       await loadSite({
@@ -529,8 +529,8 @@ describe('simple site', () => {
         custom_edit_url: 'https://github.com/customUrl/docs/lorem.md',
         unrelated_front_matter: "won't be part of metadata",
       },
-      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
-      lastUpdatedBy: LAST_UPDATE_FALLBACK.lastUpdatedBy,
+      lastUpdatedAt: TEST_VCS.LAST_UPDATE_INFO.timestamp,
+      lastUpdatedBy: TEST_VCS.LAST_UPDATE_INFO.author,
       tags: [],
       unlisted: false,
     });
@@ -664,7 +664,7 @@ describe('simple site', () => {
         },
         title: 'Last Update Author Only',
       },
-      lastUpdatedAt: LAST_UPDATE_FALLBACK.lastUpdatedAt,
+      lastUpdatedAt: TEST_VCS.LAST_UPDATE_INFO.timestamp,
       lastUpdatedBy: 'Custom Author (processed by parseFrontMatter)',
       sidebarPosition: undefined,
       tags: [],
@@ -836,7 +836,7 @@ describe('simple site', () => {
     await expect(
       defaultTestUtils.generateNavigation(docs),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Error when loading bad in .: the pagination_prev front matter points to a non-existent ID nonexistent."`,
+      `[Error: Error when loading bad in .: the pagination_prev front matter points to a non-existent ID nonexistent.]`,
     );
   });
 });
@@ -1163,7 +1163,7 @@ describe('versioned site', () => {
   it('doc with editUrl function', async () => {
     const hardcodedEditUrl = 'hardcoded-edit-url';
 
-    const editUrlFunction: EditUrlFunction = jest.fn(() => hardcodedEditUrl);
+    const editUrlFunction: EditUrlFunction = vi.fn(() => hardcodedEditUrl);
 
     const {siteDir, context, options, version100} = await loadSite({
       options: {

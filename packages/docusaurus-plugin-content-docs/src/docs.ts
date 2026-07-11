@@ -97,6 +97,7 @@ async function doProcessDocMetadata({
     siteDir,
     siteConfig: {
       markdown: {parseFrontMatter},
+      future: {experimental_vcs: vcs},
     },
   } = context;
 
@@ -125,6 +126,7 @@ async function doProcessDocMetadata({
     filePath,
     options,
     lastUpdateFrontMatter,
+    vcs,
   );
 
   // E.g. api/plugins/myDoc -> myDoc; myDoc -> myDoc
@@ -256,7 +258,7 @@ export async function processDocMetadata(args: {
   } catch (err) {
     throw new Error(
       `Can't process doc metadata for doc at path path=${args.docFile.filePath} in version name=${args.versionMetadata.versionName}`,
-      {cause: err as Error},
+      {cause: err},
     );
   }
 }

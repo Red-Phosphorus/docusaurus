@@ -7,8 +7,9 @@ on:
       - docusaurus-v**
     paths:
       - package.json
-      - yarn.lock
-      - jest.config.mjs
+      - pnpm-lock.yaml
+      - vitest.config.ts
+      - test/**
       - packages/**
       - tsconfig.*.json
       - .github/workflows/tests.yml
@@ -27,44 +28,47 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['18.0', '20', '22', '24']
+        node: ['24.14', '26']
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ matrix.node }}
-          cache: yarn
+          cache: pnpm
       - name: Installation
-        run: yarn || yarn || yarn
+        run: pnpm install --frozen-lockfile || pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
       - name: Test
-        run: yarn test
+        run: pnpm test
       - name: Remove Theme Internal Re-export
-        run: yarn workspace @docusaurus/theme-common removeThemeInternalReexport
+        run: pnpm --filter @docusaurus/theme-common removeThemeInternalReexport
       - name: Docusaurus Build
         # We build 2 locales to ensure a localized site doesn't leak memory
         # See https://github.com/facebook/docusaurus/pull/10599
-        run: yarn build:website:fast --locale en --locale fr
+        run: pnpm build:website:fast --locale en --locale fr
         env:
           # Our website should build even with limited memory
           # See https://github.com/facebook/docusaurus/pull/10590
           NODE_OPTIONS: '--max-old-space-size=450'
           DOCUSAURUS_PERF_LOGGER: 'true'
       - name: Docusaurus site CSS order
-        run: yarn workspace website test:css-order
+        run: pnpm --filter website test:css-order
 
       - name: TypeCheck website
-        # TODO temporary, remove TS skipLibCheck
         # see https://github.com/facebook/docusaurus/pull/10486
-        run: yarn workspace website typecheck --project tsconfig.skipLibCheck.json
-      - name: TypeCheck website - min version - v5.1
+        run: pnpm --filter website typecheck
+
+      - name: TypeCheck website - min version - v6.0
         run: |
-          yarn add typescript@5.1.6 --exact -D -W --ignore-scripts
-          yarn workspace website typecheck
+          pnpm add typescript@6.0 --save-exact -D -w --ignore-scripts
+          pnpm --filter website typecheck
+
       - name: TypeCheck website - max version - Latest
         # For latest TS there are often lib check errors, so we disable it
         # Details: https://github.com/facebook/docusaurus/pull/10486
         run: |
-          yarn add typescript@latest --exact -D -W --ignore-scripts
-          yarn workspace website typecheck --project tsconfig.skipLibCheck.json
+          pnpm add typescript@latest --save-exact -D -w --ignore-scripts
+          pnpm --filter website typecheck --project tsconfig.skipLibCheck.json

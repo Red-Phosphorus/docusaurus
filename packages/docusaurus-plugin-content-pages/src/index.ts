@@ -13,11 +13,12 @@ import {
   addTrailingPathSeparator,
   createAbsoluteFilePathMatcher,
   getContentPathList,
-  DEFAULT_PLUGIN_ID,
+  resolveMarkdownLinkPathname,
 } from '@docusaurus/utils';
 import {createMDXLoaderRule} from '@docusaurus/mdx-loader';
 import {createAllRoutes} from './routes';
 import {createPagesContentPaths, loadPagesContent} from './content';
+import {createContentHelpers} from './contentHelpers';
 import type {LoadContext, Plugin} from '@docusaurus/types';
 import type {
   PluginOptions,
@@ -33,12 +34,13 @@ export default async function pluginContentPages(
   const {siteConfig, siteDir, generatedFilesDir} = context;
 
   const contentPaths = createPagesContentPaths({context, options});
+  const contentHelpers = createContentHelpers();
 
   const pluginDataDirRoot = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-pages',
   );
-  const dataDir = path.join(pluginDataDirRoot, options.id ?? DEFAULT_PLUGIN_ID);
+  const dataDir = path.join(pluginDataDirRoot, options.id);
 
   async function createPagesMDXLoaderRule(): Promise<RuleSetRule> {
     const {
@@ -56,8 +58,7 @@ export default async function pluginContentPages(
         // Trailing slash is important, see https://github.com/facebook/docusaurus/pull/3970
         .map(addTrailingPathSeparator),
       options: {
-        useCrossCompilerCache:
-          siteConfig.future.experimental_faster.mdxCrossCompilerCache,
+        useCrossCompilerCache: siteConfig.future.faster.mdxCrossCompilerCache,
         admonitions,
         remarkPlugins,
         rehypePlugins,
@@ -83,6 +84,14 @@ export default async function pluginContentPages(
           image: frontMatter.image,
         }),
         markdownConfig: siteConfig.markdown,
+        resolveMarkdownLink: ({linkPathname, sourceFilePath}) => {
+          return resolveMarkdownLinkPathname(linkPathname, {
+            sourceFilePath,
+            sourceToPermalink: contentHelpers.sourceToPermalink,
+            siteDir,
+            contentPaths,
+          });
+        },
       },
     });
   }
@@ -110,6 +119,7 @@ export default async function pluginContentPages(
       if (!content) {
         return;
       }
+      contentHelpers.updateContent(content);
       await createAllRoutes({content, options, actions});
     },
 

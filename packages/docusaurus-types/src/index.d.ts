@@ -13,16 +13,22 @@ export {
   FutureV4Config,
   FasterConfig,
   StorageConfig,
+  VcsConfig,
+  VcsPreset,
+  VcsChangeInfo,
+  VscInitializeParams,
   Config,
 } from './config';
 
 export {
+  MDX1CompatOptions,
   MarkdownConfig,
   MarkdownHooks,
   DefaultParseFrontMatter,
   ParseFrontMatter,
   OnBrokenMarkdownLinksFunction,
   OnBrokenMarkdownImagesFunction,
+  OnUnusedMarkdownDirectivesFunction,
 } from './markdown';
 
 export {ReportingSeverity} from './reporting';

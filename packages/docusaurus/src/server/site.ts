@@ -18,7 +18,7 @@ import {loadSiteConfig} from './config';
 import {getAllClientModules} from './clientModules';
 import {loadPlugins, reloadPlugin} from './plugins/plugins';
 import {loadHtmlTags} from './htmlTags';
-import {createSiteMetadata, loadSiteVersion} from './siteMetadata';
+import {createSiteMetadata, tryLoadSitePackageJson} from './siteMetadata';
 import {loadI18n} from './i18n';
 import {
   loadSiteCodeTranslations,
@@ -94,11 +94,20 @@ export async function loadContext(
     siteVersion,
     loadSiteConfig: {siteConfig: initialSiteConfig, siteConfigPath},
   } = await combinePromises({
-    siteVersion: loadSiteVersion(siteDir),
+    siteVersion: tryLoadSitePackageJson(siteDir).then((pkg) => pkg?.version),
     loadSiteConfig: loadSiteConfig({
       siteDir,
       customConfigFilePath,
     }),
+  });
+
+  // Not sure where is the best place to put this VCS initialization call?
+  // The sooner is probably the better
+  // Note: we don't await the result on purpose!
+  // VCS initialization can be slow for large repos, and we don't want to block
+  // VCS integrations should be carefully designed to avoid blocking
+  PerfLogger.async('VCS init', () => {
+    return initialSiteConfig.future.experimental_vcs.initialize({siteDir});
   });
 
   const currentBundler = await getCurrentBundler({
@@ -120,7 +129,17 @@ export async function loadContext(
   // eventually including the /<locale>/ suffix
   const baseUrl = localeConfig.baseUrl;
 
-  const outDir = path.join(path.resolve(siteDir, baseOutDir), baseUrl);
+  // TODO not ideal: we should allow configuring a custom outDir for each locale
+  // The site baseUrl should be 100% decoupled from the file system output shape
+  // We added this logic to restore v3 retro-compatibility, because by default
+  // Docusaurus always wrote to ./build for sites having a baseUrl
+  // See also https://github.com/facebook/docusaurus/issues/11433
+  // This logic assumes the locale baseUrl will start with the site baseUrl
+  // which is the case if an explicit locale baseUrl is not provided
+  // but in practice a custom locale baseUrl could be anything now
+  const outDirBaseUrl = baseUrl.replace(initialSiteConfig.baseUrl, '/');
+
+  const outDir = path.join(path.resolve(siteDir, baseOutDir), outDirBaseUrl);
 
   const localizationDir = path.resolve(
     siteDir,
@@ -130,6 +149,7 @@ export async function loadContext(
 
   const siteConfig: DocusaurusConfig = {
     ...initialSiteConfig,
+    url: localeConfig.url,
     baseUrl,
   };
 

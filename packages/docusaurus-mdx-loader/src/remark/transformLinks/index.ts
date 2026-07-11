@@ -6,7 +6,6 @@
  */
 
 import path from 'path';
-import url from 'url';
 import fs from 'fs-extra';
 import {
   toMessageRelativeFilePath,
@@ -15,6 +14,7 @@ import {
   findAsyncSequential,
   getFileLoaderUtils,
   parseURLOrPath,
+  parseLocalURLPath,
 } from '@docusaurus/utils';
 import escapeHtml from 'escape-html';
 import logger from '@docusaurus/logger';
@@ -171,26 +171,38 @@ async function toAssetRequireNode(
   });
 }
 
+/**
+ * Checks if the given file path exists and is a file.
+ * Returns true if it exists, false otherwise.
+ */
+async function isExistingFile(filePath: string): Promise<boolean> {
+  try {
+    return (await fs.stat(filePath)).isFile();
+  } catch {
+    return false;
+  }
+}
+
 async function getLocalFileAbsolutePath(
   assetPath: string,
   {siteDir, filePath, staticDirs}: Context,
 ) {
   if (assetPath.startsWith('@site/')) {
     const assetFilePath = path.join(siteDir, assetPath.replace('@site/', ''));
-    if (await fs.pathExists(assetFilePath)) {
+    if (await isExistingFile(assetFilePath)) {
       return assetFilePath;
     }
   } else if (path.isAbsolute(assetPath)) {
     const assetFilePath = await findAsyncSequential(
       staticDirs.map((dir) => path.join(dir, assetPath)),
-      fs.pathExists,
+      isExistingFile,
     );
     if (assetFilePath) {
       return assetFilePath;
     }
   } else {
     const assetFilePath = path.join(path.dirname(filePath), assetPath);
-    if (await fs.pathExists(assetFilePath)) {
+    if (await isExistingFile(assetFilePath)) {
       return assetFilePath;
     }
   }
@@ -209,21 +221,22 @@ async function processLinkNode(target: Target, context: Context) {
     return;
   }
 
-  const parsedUrl = url.parse(node.url);
-  if (parsedUrl.protocol || !parsedUrl.pathname) {
+  const localUrlPath = parseLocalURLPath(node.url);
+  if (!localUrlPath) {
     // Don't process pathname:// here, it's used by the <Link> component
     return;
   }
-  const hasSiteAlias = parsedUrl.pathname.startsWith('@site/');
+
+  const hasSiteAlias = localUrlPath.pathname.startsWith('@site/');
   const hasAssetLikeExtension =
-    path.extname(parsedUrl.pathname) &&
-    !parsedUrl.pathname.match(/\.(?:mdx?|html)(?:#|$)/);
+    path.extname(localUrlPath.pathname) &&
+    !localUrlPath.pathname.match(/\.(?:mdx?|html)(?:#|$)/);
   if (!hasSiteAlias && !hasAssetLikeExtension) {
     return;
   }
 
   const localFilePath = await getLocalFileAbsolutePath(
-    decodeURIComponent(parsedUrl.pathname),
+    decodeURIComponent(localUrlPath.pathname),
     context,
   );
 
