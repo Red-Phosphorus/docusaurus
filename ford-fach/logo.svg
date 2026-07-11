@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 132" fill="none">
+  <defs>
+    <linearGradient id="oval" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1B6EF3"/>
+      <stop offset="1" stop-color="#00164E"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4E92FF"/>
+      <stop offset="1" stop-color="#0A2E7A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Oval emblem -->
+  <ellipse cx="86" cy="66" rx="82" ry="52" fill="url(#rim)"/>
+  <ellipse cx="86" cy="66" rx="76" ry="46" fill="url(#oval)"/>
+  <ellipse cx="86" cy="66" rx="70" ry="40" fill="none" stroke="#6FA4FF" stroke-width="1" opacity="0.45"/>
+  <text x="86" y="72" font-family="'Brush Script MT','Segoe Script','Dancing Script',cursive"
+        font-size="42" fill="#fff" text-anchor="middle" font-style="italic" letter-spacing="-1">Ford</text>
+
+  <!-- Wordmark -->
+  <text x="184" y="60" font-family="'Space Grotesk','Inter',sans-serif" font-size="27"
+        font-weight="700" fill="#0C1524" letter-spacing="-0.5">FORD FACH</text>
+  <rect x="185" y="70" width="176" height="2" rx="1" fill="#1B6EF3"/>
+  <text x="185" y="90" font-family="'Inter',sans-serif" font-size="11"
+        font-weight="500" fill="#8592A6" letter-spacing="4.4">SERWIS FORD</text>
+</svg>
