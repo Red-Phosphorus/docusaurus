@@ -3,358 +3,147 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ford Fach — Usługi & Cennik</title>
-  <meta name="description" content="Pełny cennik usług warsztatu Ford Fach. Naprawa silnika, diagnostyka, hamulce, klimatyzacja i wiele więcej."/>
+  <title>Usługi &amp; Cennik — Ford Fach</title>
+  <meta name="description" content="Pełny zakres usług i przejrzysty cennik warsztatu Ford Fach: naprawa silnika, diagnostyka, hamulce, klimatyzacja, przeglądy."/>
   <link rel="icon" href="logo.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 
 <nav class="navbar">
-  <a href="index.html" class="nav-logo">
-    <img src="logo.svg" alt="Ford Fach Logo" style="height:48px"/>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Strona Główna</a></li>
-    <li><a href="uslugi.html" class="active">Usługi</a></li>
-    <li><a href="o-nas.html">O Nas</a></li>
-    <li><a href="galeria.html">Galeria</a></li>
-    <li><a href="kontakt.html" class="nav-cta">Umów Wizytę</a></li>
-  </ul>
-  <div class="nav-toggle" id="navToggle">
-    <span></span><span></span><span></span>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="logo.svg" alt="Ford Fach"/></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Strona główna</a></li>
+      <li><a href="uslugi.html" class="active">Usługi</a></li>
+      <li><a href="o-nas.html">O nas</a></li>
+      <li><a href="galeria.html">Galeria</a></li>
+      <li class="nav-cta"><a href="kontakt.html">Umów wizytę</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
-<!-- PAGE HERO -->
 <div class="page-hero">
-  <div class="page-hero-content">
-    <div class="section-eyebrow">Co robimy</div>
-    <h1 class="page-hero-title">Nasze <span>Usługi</span> & Cennik</h1>
-    <p style="color:var(--text-muted); max-width:500px; margin-top:.75rem">
-      Kompleksowa obsługa wszystkich modeli Ford. Transparentne ceny, oryginalne części, gwarancja jakości.
-    </p>
-    <div class="page-hero-breadcrumb">
-      <a href="index.html">Strona Główna</a>
-      <span>›</span>
-      <span>Usługi</span>
-    </div>
+  <div class="container">
+    <span class="eyebrow">Co robimy</span>
+    <h1>Usługi &amp; <em>cennik</em></h1>
+    <p>Kompleksowa obsługa wszystkich modeli Ford. Transparentne ceny, oryginalne części i gwarancja jakości na każdą naprawę.</p>
+    <div class="breadcrumb"><a href="index.html">Strona główna</a> <span>›</span> Usługi</div>
   </div>
 </div>
 
-<!-- MAIN SERVICES -->
+<!-- SERVICE CARDS -->
 <section>
-  <div class="section-eyebrow">Zakres napraw</div>
-  <div class="divider"></div>
-  <h2 class="section-title">Wszystko <span>dla Twojego Forda</span></h2>
-  <p class="section-sub">Od drobnych przeglądów po kompleksowe remonty silnika — wykonujemy każdy rodzaj naprawy.</p>
-
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">🔧</div>
-      <div class="service-title">Naprawa & Remont Silnika</div>
-      <p class="service-desc">Diagnostyka, naprawa i wymiana części silnika. Specjalizujemy się w silnikach EcoBoost, TDCi oraz Power Stroke. Wymiana rozrządu, uszczelnień głowicy, turbosprężarki.</p>
-      <div class="service-price">od 300 zł</div>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Zakres napraw</span>
+      <h2 class="h-title">Wszystko dla <em>Twojego Forda</em></h2>
+      <p class="h-sub">Od drobnych przeglądów po kompleksowe remonty silnika — realizujemy każdy rodzaj naprawy.</p>
     </div>
-    <div class="service-card">
-      <div class="service-icon">💻</div>
-      <div class="service-title">Diagnostyka Komputerowa IDS</div>
-      <p class="service-desc">Autoryzowane oprogramowanie Ford IDS. Odczyt i kasowanie kodów błędów, kalibracja czujników, programowanie modułów ECU/TCM/BCM, aktualizacje oprogramowania.</p>
-      <div class="service-price">od 80 zł</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🛞</div>
-      <div class="service-title">Układ Hamulcowy</div>
-      <p class="service-desc">Wymiana klocków i tarcz hamulcowych, naprawa zaciski, wymiana płynu, odpowietrzanie. Serwis układu ABS, ESP, EBA. Hamulec ręczny elektryczny EPB.</p>
-      <div class="service-price">od 200 zł</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">⚙️</div>
-      <div class="service-title">Skrzynia Biegów & Sprzęgło</div>
-      <p class="service-desc">Naprawa manualnych i automatycznych skrzyń biegów. Wymiana sprzęgła, dwumasowego koła zamachowego. Serwis przekładni PowerShift i SelectShift.</p>
-      <div class="service-price">od 500 zł</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">❄️</div>
-      <div class="service-title">Klimatyzacja</div>
-      <p class="service-desc">Serwis, napełnianie czynnikiem R134a i R1234yf. Dezynfekcja ozono. Naprawa sprężarek, skraplaczy, parowników. Certyfikat F-gaz.</p>
-      <div class="service-price">od 150 zł</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🔋</div>
-      <div class="service-title">Elektrika & Elektronika</div>
-      <p class="service-desc">Pełna diagnostyka instalacji elektrycznej. Naprawa alternatorów, rozruszników. Wymiana akumulatorów z kodowaniem. Montaż akcesoriów i systemów audio.</p>
-      <div class="service-price">od 120 zł</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🔩</div>
-      <div class="service-title">Zawieszenie & Geometria</div>
-      <p class="service-desc">Wymiana amortyzatorów, sprężyn, wahaczy, końcówek drążków. Serwis układu kierowniczego. Ustawianie zbieżności i geometrii kół 3D.</p>
-      <div class="service-price">od 180 zł</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🛢️</div>
-      <div class="service-title">Przegląd Okresowy ASO</div>
-      <p class="service-desc">Kompleksowy przegląd wg harmonogramu producenta. Wymiana oleju i filtrów, kontrola 50 punktów bezpieczeństwa. Raport kontrolny i pieczątek w książce serwisowej.</p>
-      <div class="service-price">od 250 zł</div>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🚗</div>
-      <div class="service-title">Pojazdy Elektryczne & Hybrydy</div>
-      <p class="service-desc">Serwis Ford Mustang Mach-E, F-150 Lightning, Explorer PHEV. Diagnostyka baterii HV, serwis ładowarek i układów HEV/PHEV/BEV.</p>
-      <div class="service-price">od 200 zł</div>
+    <div class="cards-grid">
+      <div class="card reveal"><div class="card-media"><img src="img/engine.jpg" alt=""/></div><div class="card-body"><h3>Naprawa i remont silnika</h3><p>Silniki EcoBoost, TDCi, Power Stroke. Wymiana rozrządu, uszczelnień głowicy, turbosprężarki.</p><div class="card-foot"><span class="card-price">od 300 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/garage.jpg" alt=""/></div><div class="card-body"><h3>Diagnostyka komputerowa IDS</h3><p>Autoryzowane oprogramowanie Ford IDS/FDRS. Odczyt błędów, programowanie ECU/TCM/BCM.</p><div class="card-foot"><span class="card-price">od 80 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/wheel.jpg" alt=""/></div><div class="card-body"><h3>Układ hamulcowy</h3><p>Wymiana klocków, tarcz, płynu. Naprawa zacisków. Serwis ABS, ESP oraz hamulca EPB.</p><div class="card-foot"><span class="card-price">od 200 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/mechanic2.jpg" alt=""/></div><div class="card-body"><h3>Skrzynia biegów &amp; sprzęgło</h3><p>Naprawa skrzyń manualnych i automatycznych. Wymiana sprzęgła, dwumasy. Serwis PowerShift.</p><div class="card-foot"><span class="card-price">od 500 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/dashboard.jpg" alt=""/></div><div class="card-body"><h3>Klimatyzacja</h3><p>Serwis, napełnianie R134a i R1234yf, dezynfekcja ozonowa. Naprawa sprężarek. Certyfikat F-gaz.</p><div class="card-foot"><span class="card-price">od 150 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/key.jpg" alt=""/></div><div class="card-body"><h3>Elektryka &amp; elektronika</h3><p>Diagnostyka instalacji, alternatory, rozruszniki. Kodowanie akumulatorów i modułów. Montaż audio.</p><div class="card-foot"><span class="card-price">od 120 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/tire.jpg" alt=""/></div><div class="card-body"><h3>Zawieszenie &amp; geometria</h3><p>Amortyzatory, sprężyny, wahacze, drążki. Ustawianie zbieżności i geometrii kół 3D.</p><div class="card-foot"><span class="card-price">od 180 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/tools.jpg" alt=""/></div><div class="card-body"><h3>Przegląd okresowy ASO</h3><p>Wymiana oleju i filtrów, kontrola 50 punktów bezpieczeństwa, pieczątka w książce serwisowej.</p><div class="card-foot"><span class="card-price">od 250 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/carblue.jpg" alt=""/></div><div class="card-body"><h3>Hybrydy &amp; pojazdy elektryczne</h3><p>Serwis Mustang Mach-E, Kuga PHEV, Explorer. Diagnostyka baterii HV, układów HEV/PHEV/BEV.</p><div class="card-foot"><span class="card-price">od 200 zł</span></div></div></div>
+      <div class="card reveal"><div class="card-media"><img src="img/service.jpg" alt=""/></div><div class="card-body"><h3>Sezonowa wymiana opon</h3><p>Przechowalnia opon, wyważanie, naprawa. Kontrola stanu ogumienia przed sezonem.</p><div class="card-foot"><span class="card-price">od 100 zł</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- PRICE TABLE -->
-<section style="background: rgba(0,20,40,.2)">
-  <div class="section-eyebrow">Transparentny cennik</div>
-  <div class="divider"></div>
-  <h2 class="section-title">Szczegółowy <span>Cennik</span></h2>
-  <p class="section-sub">Ceny orientacyjne. Ostateczna wycena po diagnostyce. Bez ukrytych kosztów.</p>
+<!-- PRICE TABLES -->
+<section class="section-alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Transparentny cennik</span>
+      <h2 class="h-title">Szczegółowy <em>cennik usług</em></h2>
+      <p class="h-sub">Ceny orientacyjne za robociznę. Ostateczna wycena zawsze przed rozpoczęciem naprawy.</p>
+    </div>
 
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem">
-
-    <div>
-      <h3 style="font-family:var(--font-display); color:var(--neon-cyan); margin-bottom:1rem; letter-spacing:1px">
-        🔧 Silnik & Układ Napędowy
-      </h3>
-      <div class="price-table">
-        <div class="price-table-header">
-          <span>Usługa</span>
-          <span>Czas</span>
-          <span>Cena</span>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px" class="reveal">
+      <div class="price-block">
+        <h3><span class="pic">🔧</span> Silnik &amp; układ napędowy</h3>
+        <div class="ptable">
+          <div class="ptable-head"><span>Usługa</span><span>Czas</span><span>Cena</span></div>
+          <div class="prow"><span class="p-name">Wymiana oleju silnikowego</span><span class="p-time">30 min</span><span class="p-cost">od 80 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana rozrządu (1.0 EcoBoost)</span><span class="p-time">4–6 h</span><span class="p-cost">od 800 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana rozrządu (diesel)</span><span class="p-time">5–8 h</span><span class="p-cost">od 1200 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana sprzęgła</span><span class="p-time">4–6 h</span><span class="p-cost">od 700 zł</span></div>
+          <div class="prow"><span class="p-name">Naprawa turbosprężarki</span><span class="p-time">2–4 h</span><span class="p-cost">od 400 zł</span></div>
+          <div class="prow"><span class="p-name">Uszczelnienie głowicy</span><span class="p-time">6–10 h</span><span class="p-cost">od 1500 zł</span></div>
         </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana oleju silnikowego</span>
-          <span class="price-time">30 min</span>
-          <span class="price-cost">od 80 zł</span>
+      </div>
+      <div class="price-block">
+        <h3><span class="pic">🛞</span> Hamulce &amp; zawieszenie</h3>
+        <div class="ptable">
+          <div class="ptable-head"><span>Usługa</span><span>Czas</span><span>Cena</span></div>
+          <div class="prow"><span class="p-name">Wymiana klocków (oś)</span><span class="p-time">45 min</span><span class="p-cost">od 150 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana tarcz + klocków (oś)</span><span class="p-time">1.5 h</span><span class="p-cost">od 350 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana amortyzatora (szt.)</span><span class="p-time">1 h</span><span class="p-cost">od 180 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana wahacza</span><span class="p-time">1.5 h</span><span class="p-cost">od 220 zł</span></div>
+          <div class="prow"><span class="p-name">Geometria kół 3D</span><span class="p-time">1 h</span><span class="p-cost">od 200 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana płynu hamulcowego</span><span class="p-time">30 min</span><span class="p-cost">od 100 zł</span></div>
         </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana rozrządu (1.0 EcoBoost)</span>
-          <span class="price-time">4–6 h</span>
-          <span class="price-cost">od 800 zł</span>
+      </div>
+      <div class="price-block">
+        <h3><span class="pic">💻</span> Diagnostyka &amp; elektronika</h3>
+        <div class="ptable">
+          <div class="ptable-head"><span>Usługa</span><span>Czas</span><span>Cena</span></div>
+          <div class="prow"><span class="p-name">Diagnostyka Ford IDS</span><span class="p-time">30 min</span><span class="p-cost">od 80 zł</span></div>
+          <div class="prow"><span class="p-name">Programowanie kluczyka PATS</span><span class="p-time">30 min</span><span class="p-cost">od 150 zł</span></div>
+          <div class="prow"><span class="p-name">Wymiana akumulatora z kodowaniem</span><span class="p-time">30 min</span><span class="p-cost">od 120 zł</span></div>
+          <div class="prow"><span class="p-name">Naprawa alternatora</span><span class="p-time">2–3 h</span><span class="p-cost">od 300 zł</span></div>
+          <div class="prow"><span class="p-name">Kalibracja ADAS</span><span class="p-time">1.5 h</span><span class="p-cost">od 250 zł</span></div>
+          <div class="prow"><span class="p-name">Aktualizacja oprogramowania ECU</span><span class="p-time">1 h</span><span class="p-cost">od 180 zł</span></div>
         </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana rozrządu (diesel)</span>
-          <span class="price-time">5–8 h</span>
-          <span class="price-cost">od 1 200 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana sprzęgła</span>
-          <span class="price-time">4–6 h</span>
-          <span class="price-cost">od 700 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Naprawa turbosprężarki</span>
-          <span class="price-time">2–4 h</span>
-          <span class="price-cost">od 400 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Uszczelnienie głowicy</span>
-          <span class="price-time">6–10 h</span>
-          <span class="price-cost">od 1 500 zł</span>
+      </div>
+      <div class="price-block">
+        <h3><span class="pic">❄️</span> Klimatyzacja &amp; przeglądy</h3>
+        <div class="ptable">
+          <div class="ptable-head"><span>Usługa</span><span>Czas</span><span>Cena</span></div>
+          <div class="prow"><span class="p-name">Napełnianie klimatyzacji R134a</span><span class="p-time">1 h</span><span class="p-cost">od 150 zł</span></div>
+          <div class="prow"><span class="p-name">Dezynfekcja ozonowa</span><span class="p-time">30 min</span><span class="p-cost">od 80 zł</span></div>
+          <div class="prow"><span class="p-name">Przegląd standardowy + olej</span><span class="p-time">1.5 h</span><span class="p-cost">od 250 zł</span></div>
+          <div class="prow"><span class="p-name">Przegląd premium (50 pkt)</span><span class="p-time">2.5 h</span><span class="p-cost">od 400 zł</span></div>
+          <div class="prow"><span class="p-name">Sezonowa wymiana opon</span><span class="p-time">45 min</span><span class="p-cost">od 100 zł</span></div>
+          <div class="prow"><span class="p-name">Przegląd przed zakupem</span><span class="p-time">2 h</span><span class="p-cost">od 200 zł</span></div>
         </div>
       </div>
     </div>
 
-    <div>
-      <h3 style="font-family:var(--font-display); color:var(--neon-cyan); margin-bottom:1rem; letter-spacing:1px">
-        🛞 Hamulce & Zawieszenie
-      </h3>
-      <div class="price-table">
-        <div class="price-table-header">
-          <span>Usługa</span>
-          <span>Czas</span>
-          <span>Cena</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana klocków hamulcowych (oś)</span>
-          <span class="price-time">45 min</span>
-          <span class="price-cost">od 150 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana tarcz + klocków (oś)</span>
-          <span class="price-time">1.5 h</span>
-          <span class="price-cost">od 350 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana amortyzatora (szt.)</span>
-          <span class="price-time">1 h</span>
-          <span class="price-cost">od 180 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana wahacza</span>
-          <span class="price-time">1.5 h</span>
-          <span class="price-cost">od 220 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Geometria kół 4D</span>
-          <span class="price-time">1 h</span>
-          <span class="price-cost">od 200 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana płynu hamulcowego</span>
-          <span class="price-time">30 min</span>
-          <span class="price-cost">od 100 zł</span>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <h3 style="font-family:var(--font-display); color:var(--neon-cyan); margin-bottom:1rem; letter-spacing:1px">
-        💻 Diagnostyka & Elektronika
-      </h3>
-      <div class="price-table">
-        <div class="price-table-header">
-          <span>Usługa</span>
-          <span>Czas</span>
-          <span>Cena</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Diagnostyka komputerowa Ford IDS</span>
-          <span class="price-time">30 min</span>
-          <span class="price-cost">od 80 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Programowanie kluczyka PATS</span>
-          <span class="price-time">30 min</span>
-          <span class="price-cost">od 150 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Wymiana akumulatora z kodowaniem</span>
-          <span class="price-time">30 min</span>
-          <span class="price-cost">od 120 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Naprawa alternator</span>
-          <span class="price-time">2–3 h</span>
-          <span class="price-cost">od 300 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Kalibracja kamer/sensorów ADAS</span>
-          <span class="price-time">1.5 h</span>
-          <span class="price-cost">od 250 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Update oprogramowania ECU</span>
-          <span class="price-time">1 h</span>
-          <span class="price-cost">od 180 zł</span>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <h3 style="font-family:var(--font-display); color:var(--neon-cyan); margin-bottom:1rem; letter-spacing:1px">
-        🌬 Klimatyzacja & Przeglądy
-      </h3>
-      <div class="price-table">
-        <div class="price-table-header">
-          <span>Usługa</span>
-          <span>Czas</span>
-          <span>Cena</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Napełnianie klimatyzacji R134a</span>
-          <span class="price-time">1 h</span>
-          <span class="price-cost">od 150 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Dezynfekcja ozonowanie</span>
-          <span class="price-time">30 min</span>
-          <span class="price-cost">od 80 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Przegląd standardowy + olej</span>
-          <span class="price-time">1.5 h</span>
-          <span class="price-cost">od 250 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Przegląd premium (50 pkt)</span>
-          <span class="price-time">2.5 h</span>
-          <span class="price-cost">od 400 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Sezonowa zmiana opon</span>
-          <span class="price-time">45 min</span>
-          <span class="price-cost">od 100 zł</span>
-        </div>
-        <div class="price-row">
-          <span class="price-name">Przegląd przed zakupem</span>
-          <span class="price-time">2 h</span>
-          <span class="price-cost">od 200 zł</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div style="margin-top:2rem; padding:1.5rem; background:rgba(0,212,255,.05); border:1px solid rgba(0,212,255,.15); border-radius:10px; display:flex; align-items:flex-start; gap:1rem">
-    <span style="font-size:1.5rem">ℹ️</span>
-    <div>
-      <strong style="color:var(--neon-cyan)">Informacja o cenach:</strong>
-      <p style="color:var(--text-muted); font-size:.85rem; margin-top:.25rem">
-        Podane ceny są cenami orientacyjnymi za robociznę. Koszt części doliczany jest osobno.
-        Ostateczna wycena zawsze przed przystąpieniem do naprawy. Używamy wyłącznie oryginalnych
-        części Ford lub certyfikowanych zamienników OEM. Dla stałych klientów — 10% zniżki na robociznę.
-      </p>
+    <div class="note reveal">
+      <span style="font-size:22px">ℹ️</span>
+      <div><b>Informacja o cenach.</b><p>Podane ceny dotyczą robocizny — koszt części doliczany osobno. Używamy oryginalnych części Ford lub certyfikowanych zamienników OEM. Dla stałych klientów 10% zniżki na robociznę.</p></div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section style="text-align:center; background: linear-gradient(135deg, rgba(0,51,102,.3), rgba(0,100,200,.15))">
-  <h2 class="section-title">Gotowy na <span>naprawę</span>?</h2>
-  <p class="section-sub" style="margin:0 auto 2.5rem">Zadzwoń lub umów się online. Bezpłatna wstępna wycena!</p>
-  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap">
-    <a href="kontakt.html" class="btn-primary">📅 Zarezerwuj termin</a>
-    <a href="tel:+48123456789" class="btn-outline">📞 +48 123 456 789</a>
-  </div>
+<section>
+  <div class="container"><div class="cta-band reveal">
+    <h2>Potrzebujesz <em>wyceny?</em></h2>
+    <p>Zadzwoń lub umów się online. Bezpłatna wstępna diagnoza i wycena naprawy.</p>
+    <div class="cta-actions">
+      <a href="kontakt.html" class="btn btn-light">Umów wizytę</a>
+      <a href="tel:+48123456789" class="btn btn-outline-light">📞 +48 123 456 789</a>
+    </div>
+  </div></div>
 </section>
 
 <footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <img src="logo.svg" alt="Ford Fach" style="height:56px"/>
-      <p>Profesjonalny warsztat samochodowy specjalizujący się w markach Ford. Certyfikowani mechanicy, oryginalne części, gwarancja jakości.</p>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><img src="logo.svg" alt="Ford Fach"/><p>Profesjonalny warsztat samochodowy specjalizujący się w markach Ford. Certyfikowani mechanicy, oryginalne części, gwarancja jakości.</p></div>
+      <div class="footer-col"><h5>Nawigacja</h5><ul><li><a href="index.html">Strona główna</a></li><li><a href="uslugi.html">Usługi</a></li><li><a href="o-nas.html">O nas</a></li><li><a href="galeria.html">Galeria</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
+      <div class="footer-col"><h5>Usługi</h5><ul><li><a href="uslugi.html">Naprawa silnika</a></li><li><a href="uslugi.html">Diagnostyka</a></li><li><a href="uslugi.html">Klimatyzacja</a></li><li><a href="uslugi.html">Układ hamulcowy</a></li><li><a href="uslugi.html">Przegląd okresowy</a></li></ul></div>
+      <div class="footer-col"><h5>Kontakt</h5><ul><li><a href="tel:+48123456789">+48 123 456 789</a></li><li><a href="mailto:kontakt@fordfach.pl">kontakt@fordfach.pl</a></li><li><a href="#">ul. Mechaniczna 12, Warszawa</a></li><li style="color:var(--muted)">Pn–Pt 8:00–18:00 · Sob 8:00–14:00</li></ul></div>
     </div>
-    <div>
-      <div class="footer-heading">Nawigacja</div>
-      <ul class="footer-links">
-        <li><a href="index.html">Strona Główna</a></li>
-        <li><a href="uslugi.html">Usługi</a></li>
-        <li><a href="o-nas.html">O Nas</a></li>
-        <li><a href="galeria.html">Galeria</a></li>
-        <li><a href="kontakt.html">Kontakt</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">Usługi</div>
-      <ul class="footer-links">
-        <li><a href="uslugi.html">Naprawa Silnika</a></li>
-        <li><a href="uslugi.html">Diagnostyka</a></li>
-        <li><a href="uslugi.html">Klimatyzacja</a></li>
-        <li><a href="uslugi.html">Hamulce</a></li>
-        <li><a href="uslugi.html">Przegląd Okresowy</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">Kontakt</div>
-      <ul class="footer-links">
-        <li><a href="tel:+48123456789">📞 +48 123 456 789</a></li>
-        <li><a href="mailto:kontakt@fordfach.pl">✉ kontakt@fordfach.pl</a></li>
-        <li><a href="#">📍 ul. Mechaniczna 12, Warszawa</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© <span class="current-year"></span> Ford Fach. Wszelkie prawa zastrzeżone.</p>
-    <div class="footer-social">
-      <a href="#" class="social-btn">f</a>
-      <a href="#" class="social-btn">in</a>
-      <a href="#" class="social-btn">▶</a>
-    </div>
+    <div class="footer-bottom"><p>© <span class="year"></span> Ford Fach. Wszelkie prawa zastrzeżone.</p><div class="footer-social"><a href="#">f</a><a href="#">in</a><a href="#">▶</a></div></div>
   </div>
 </footer>
 

@@ -1,93 +1,77 @@
-// Ford Fach — Main JS
+// Ford Fach — light minimal build
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Navbar scroll effect
-  const navbar = document.querySelector('.navbar');
-  window.addEventListener('scroll', () => {
-    navbar?.classList.toggle('scrolled', window.scrollY > 60);
-  });
+  // Sticky navbar
+  const nav = document.querySelector('.navbar');
+  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 20);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Mobile nav toggle
+  // Mobile menu
   const toggle = document.querySelector('.nav-toggle');
-  const navLinks = document.querySelector('.nav-links');
-  toggle?.addEventListener('click', () => navLinks?.classList.toggle('open'));
+  const links  = document.querySelector('.nav-links');
+  toggle?.addEventListener('click', () => links?.classList.toggle('open'));
+  links?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
 
-  // Close nav on link click
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => navLinks?.classList.remove('open'));
-  });
+  // Reveal on scroll
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+  }, { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  // Active nav link
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    const href = a.getAttribute('href');
-    if (href === currentPage || (currentPage === '' && href === 'index.html')) {
-      a.classList.add('active');
-    }
-  });
-
-  // Animated counter
-  function animateCounter(el) {
-    const target = parseInt(el.dataset.target, 10);
+  // Animated counters
+  const animate = (el) => {
+    const target = parseFloat(el.dataset.target);
     const suffix = el.dataset.suffix || '';
-    const dur = 1800;
-    const step = target / (dur / 16);
-    let current = 0;
-    const timer = setInterval(() => {
-      current = Math.min(current + step, target);
-      el.textContent = Math.floor(current) + suffix;
-      if (current >= target) clearInterval(timer);
-    }, 16);
-  }
-
-  const counters = document.querySelectorAll('[data-target]');
-  if (counters.length) {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          animateCounter(e.target);
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: .5 });
-    counters.forEach(c => obs.observe(c));
-  }
-
-  // Fade-in on scroll
-  const fadeEls = document.querySelectorAll('.glass-card, .service-card, .team-card, .testimonial-card, .feature-item');
-  const fadeObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-        fadeObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: .1 });
-
-  fadeEls.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity .6s ease, transform .6s ease';
-    fadeObs.observe(el);
-  });
+    const dur = 1600; const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min((t - t0) / dur, 1);
+      const val = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+      el.textContent = val.toLocaleString('pl-PL') + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { animate(e.target); countObs.unobserve(e.target); } });
+  }, { threshold: .5 });
+  document.querySelectorAll('[data-target]').forEach(el => countObs.observe(el));
 
   // Contact form
-  const form = document.getElementById('contactForm');
-  form?.addEventListener('submit', e => {
+  const form = document.getElementById('bookingForm');
+  form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
-    btn.textContent = '✓ Wysłano!';
-    btn.style.background = 'linear-gradient(135deg, #39FF14, #00D4FF)';
-    setTimeout(() => {
-      btn.textContent = 'Wyślij wiadomość';
-      btn.style.background = '';
-      form.reset();
-    }, 3000);
+    const original = btn.textContent;
+    btn.textContent = '✓ Rezerwacja wysłana!';
+    btn.style.background = '#16A34A';
+    setTimeout(() => { btn.textContent = original; btn.style.background = ''; form.reset(); document.querySelectorAll('.pill.on').forEach((p,i)=>{ if(i>0) p.classList.remove('on'); }); }, 3200);
   });
 
-  // Year in footer
-  document.querySelectorAll('.current-year').forEach(el => {
-    el.textContent = new Date().getFullYear();
-  });
+  // Footer year
+  document.querySelectorAll('.year').forEach(el => el.textContent = new Date().getFullYear());
 });
+
+// Service pill selector
+function pickPill(el) {
+  el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// Gallery filter
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.masonry-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+// FAQ accordion
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const ans  = item.querySelector('.faq-a');
+  const open = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-a').classList.remove('open'); });
+  if (!open) { item.classList.add('open'); ans.classList.add('open'); }
+}
